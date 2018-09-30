@@ -9,8 +9,6 @@ interface PlayerContract {
 
     interface View : MvpView {
         fun focusCaption(captionIndex: Int)
-        fun showYoutubeErrorDialog(errorResult: YouTubeInitializationResult)
-        fun showUnrecoverableYoutubePlayerError(errorMsg: String)
     }
 
     interface Presenter : MvpPresenter {

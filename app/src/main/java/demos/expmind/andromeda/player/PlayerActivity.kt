@@ -7,13 +7,16 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
+import demos.expmind.andromeda.Configurations
 import demos.expmind.andromeda.R
 
 /**
  * View layer in charge to load video and subtitles to the UI
  */
-class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, LifecycleOwner {
+class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer.OnInitializedListener,
+        LifecycleOwner {
 
     lateinit var presenter: PlayerPresenter
     var currentlySelectedId: String? = ""
@@ -30,7 +33,8 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, LifecycleOwne
         setContentView(R.layout.activity_player)
         lifeCycleRegistry = LifecycleRegistry(this)
         playerView = findViewById(R.id.youtube_view)
-        presenter = PlayerPresenter(this, playerView)
+        playerView.initialize(Configurations.YOUTUBE_DEVELOPER_KEY, this)
+        presenter = PlayerPresenter(this)
         lifecycle.addObserver(presenter)
         lifeCycleRegistry.markState(Lifecycle.State.CREATED)
     }
@@ -62,6 +66,22 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, LifecycleOwne
         super.onDestroy()
     }
 
+    override fun onInitializationSuccess(provider: YouTubePlayer.Provider,
+                                         youtubePlayer: YouTubePlayer, wasRestored: Boolean) {
+        presenter.player = youtubePlayer
+        if (!wasRestored) {
+            presenter.loadCurrentVideo()
+        }
+    }
+
+    override fun onInitializationFailure(provider: YouTubePlayer.Provider, errorReason: YouTubeInitializationResult) {
+        if (errorReason.isUserRecoverableError()) {
+            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show()
+        } else {
+            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show()
+        }
+    }
+
     override fun showLoadingIndicator(isLoading: Boolean) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -70,13 +90,6 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, LifecycleOwne
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showYoutubeErrorDialog(errorResult: YouTubeInitializationResult) {
-        errorResult.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show()
-    }
-
-    override fun showUnrecoverableYoutubePlayerError(errorMsg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun getLifecycle(): Lifecycle = lifeCycleRegistry
 
