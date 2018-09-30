@@ -1,5 +1,9 @@
 package demos.expmind.andromeda.player
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
+import android.util.Log
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import demos.expmind.andromeda.Configurations
@@ -9,13 +13,24 @@ import demos.expmind.andromeda.Configurations
  * Coordinates player with events coming from view layer.
  */
 class PlayerPresenter(val view: PlayerContract.View, val youtubeProvider: YouTubePlayer.Provider)
-    : PlayerContract.Presenter, YouTubePlayer.OnInitializedListener {
+    : PlayerContract.Presenter, YouTubePlayer.OnInitializedListener, LifecycleObserver {
 
     lateinit var player: YouTubePlayer
     private var selectedVideoId = "OkO2lWmInr4"
 
+    companion object {
+        val TAG = PlayerPresenter::class.java.simpleName
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun start() {
+        Log.d(TAG, "initializing Youtube service ...")
         youtubeProvider.initialize(Configurations.YOUTUBE_DEVELOPER_KEY, this)
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun lifeCycleOwnerDestroyed() {
+        Log.d(TAG, "host life cycle component destroyed")
     }
 
     override fun goToCaption(captionIndex: Int) {
