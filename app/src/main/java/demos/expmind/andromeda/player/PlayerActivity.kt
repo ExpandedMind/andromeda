@@ -66,6 +66,11 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         super.onDestroy()
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifeCycleRegistry.markState(Lifecycle.State.RESUMED)
+    }
+
     override fun onInitializationSuccess(provider: YouTubePlayer.Provider,
                                          youtubePlayer: YouTubePlayer, wasRestored: Boolean) {
         presenter.player = youtubePlayer
