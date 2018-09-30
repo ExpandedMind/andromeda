@@ -30,22 +30,24 @@ class PlayerPresenter(val view: PlayerContract.View)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun start() {
-        Log.d(TAG, "initializing Youtube service ...")
+        Log.d(TAG, "lifecycle owner starting")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun lifeCycleOwnerDestroyed() {
         Log.d(TAG, "host life cycle component destroyed")
+        player?.release()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun lifeCycleOwnerResumed() {
-        Log.d(TAG, "reanuda reproduccion")
+        player?.play()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun lifeCycleOwnerPaused() {
-        Log.d(TAG, "pausa video")
+        player?.pause()
+        Log.d(TAG, "pause video")
     }
 
     fun loadCurrentVideo() {
