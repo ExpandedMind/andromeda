@@ -1,5 +1,8 @@
 package demos.expmind.andromeda.player
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.youtube.player.YouTubeBaseActivity
@@ -10,11 +13,12 @@ import demos.expmind.andromeda.R
 /**
  * View layer in charge to load video and subtitles to the UI
  */
-class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View {
+class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, LifecycleOwner {
 
     lateinit var presenter: PlayerPresenter
     var currentlySelectedId: String? = ""
     lateinit var playerView: YouTubePlayerView
+    lateinit private var lifeCycleRegistry: LifecycleRegistry
 
     companion object {
         val RECOVERY_DIALOG_REQUEST = 1
@@ -24,9 +28,11 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        lifeCycleRegistry = LifecycleRegistry(this)
         playerView = findViewById(R.id.youtube_view)
         presenter = PlayerPresenter(this, playerView)
-        presenter.start()
+        lifecycle.addObserver(presenter)
+        lifeCycleRegistry.markState(Lifecycle.State.CREATED)
     }
 
     override fun onSaveInstanceState(state: Bundle?) {
@@ -46,6 +52,16 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        lifeCycleRegistry.markState(Lifecycle.State.STARTED)
+    }
+
+    override fun onDestroy() {
+        lifeCycleRegistry.markState(Lifecycle.State.DESTROYED)
+        super.onDestroy()
+    }
+
     override fun showLoadingIndicator(isLoading: Boolean) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -61,5 +77,7 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View {
     override fun showUnrecoverableYoutubePlayerError(errorMsg: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getLifecycle(): Lifecycle = lifeCycleRegistry
 
 }
