@@ -3,7 +3,6 @@ package demos.expmind.andromeda.player
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.google.android.youtube.player.YouTubePlayer
 import demos.expmind.andromeda.data.Caption
@@ -13,8 +12,7 @@ import demos.expmind.andromeda.data.Video
  * Initializes and controls related operations to a {@link YouTubePlayer}.
  * Coordinates player with events coming from view layer.
  */
-class PlayerViewModel(val view: PlayerContract.View)
-    : ViewModel(), PlayerContract.Presenter, LifecycleObserver {
+class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter, LifecycleObserver {
 
     var player: YouTubePlayer? = null
         set(value) {
@@ -53,7 +51,7 @@ class PlayerViewModel(val view: PlayerContract.View)
 
 
     companion object {
-        val TAG = PlayerViewModel::class.java.simpleName
+        val TAG = PlayerPresenter::class.java.simpleName
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

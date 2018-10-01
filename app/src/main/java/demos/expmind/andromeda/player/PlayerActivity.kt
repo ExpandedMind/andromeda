@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_player.*
 class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer.OnInitializedListener,
         LifecycleOwner {
 
-    lateinit var presenter: PlayerViewModel
+    lateinit var presenter: PlayerPresenter
     var currentlySelectedId: String? = ""
     lateinit var playerView: YouTubePlayerView
     lateinit private var lifeCycleRegistry: LifecycleRegistry
@@ -38,7 +38,7 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         lifeCycleRegistry = LifecycleRegistry(this)
         playerView = findViewById(R.id.youtube_view)
         playerView.initialize(Configurations.YOUTUBE_DEVELOPER_KEY, this)
-        presenter = PlayerViewModel(this)
+        presenter = PlayerPresenter(this)
         lifecycle.addObserver(presenter)
         adapter = CaptionAdapter()
         captionsRecycler.layoutManager = LinearLayoutManager(this)
