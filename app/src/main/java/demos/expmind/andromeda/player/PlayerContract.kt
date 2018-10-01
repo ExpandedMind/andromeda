@@ -1,6 +1,6 @@
 package demos.expmind.andromeda.player
 
-import com.google.android.youtube.player.YouTubeInitializationResult
+import demos.expmind.andromeda.data.Caption
 
 /**
  * Defines all operations related to custom youtube player.
@@ -9,6 +9,7 @@ interface PlayerContract {
 
     interface View : MvpView {
         fun focusCaption(captionIndex: Int)
+        fun setupSubtitles(captionList: List<Caption>)
     }
 
     interface Presenter : MvpPresenter {
