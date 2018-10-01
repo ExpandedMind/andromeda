@@ -5,12 +5,15 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
 import demos.expmind.andromeda.Configurations
 import demos.expmind.andromeda.R
+import demos.expmind.andromeda.data.Caption
+import kotlinx.android.synthetic.main.activity_player.*
 
 /**
  * View layer in charge to load video and subtitles to the UI
@@ -18,10 +21,11 @@ import demos.expmind.andromeda.R
 class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer.OnInitializedListener,
         LifecycleOwner {
 
-    lateinit var presenter: PlayerPresenter
+    lateinit var presenter: PlayerViewModel
     var currentlySelectedId: String? = ""
     lateinit var playerView: YouTubePlayerView
     lateinit private var lifeCycleRegistry: LifecycleRegistry
+    lateinit var adapter: CaptionAdapter
 
     companion object {
         val RECOVERY_DIALOG_REQUEST = 1
@@ -34,8 +38,11 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         lifeCycleRegistry = LifecycleRegistry(this)
         playerView = findViewById(R.id.youtube_view)
         playerView.initialize(Configurations.YOUTUBE_DEVELOPER_KEY, this)
-        presenter = PlayerPresenter(this)
+        presenter = PlayerViewModel(this)
         lifecycle.addObserver(presenter)
+        adapter = CaptionAdapter()
+        captionsRecycler.layoutManager = LinearLayoutManager(this)
+        captionsRecycler.adapter = adapter
         lifeCycleRegistry.markState(Lifecycle.State.CREATED)
     }
 
@@ -93,6 +100,10 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
 
     override fun focusCaption(captionIndex: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setupSubtitles(captionList: List<Caption>) {
+        adapter.loadItems(captionList)
     }
 
 

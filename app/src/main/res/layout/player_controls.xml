@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_controls"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ToggleButton
+        android:id="@+id/repeatToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textOff="@string/player_repeat_sentence"
+        android:textOn="@string/player_repeat_sentence" />
+
+    <ToggleButton
+        android:id="@+id/syncToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textOff="@string/player_sync_captions"
+        android:textOn="@string/player_sync_captions" />
+
+    <Spinner
+        android:id="@+id/speedSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+</LinearLayout>
