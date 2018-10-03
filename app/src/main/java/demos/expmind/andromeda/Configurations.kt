@@ -14,4 +14,8 @@ object Configurations {
      * https://developer.android.com/studio/publish/app-signing.html?hl=es-419
      */
     val YOUTUBE_DEVELOPER_KEY = "AIzaSyDdKp0mZCBOmj1_3fkq5DepM2z1Qhob6aw"
+
+    val MUSIXMATCH_DEVELOPER_KEY = "5b2ca4be09048f5ca57b85732f78765e"
+
+    val MUSIXMATCH_URL = "https://api.musixmatch.com/ws/1.1/"
 }
