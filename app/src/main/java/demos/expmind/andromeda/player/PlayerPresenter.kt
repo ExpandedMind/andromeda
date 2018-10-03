@@ -5,8 +5,16 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import com.google.android.youtube.player.YouTubePlayer
+import demos.expmind.andromeda.Configurations
 import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
+import demos.expmind.andromeda.network.LyricsResponse
+import demos.expmind.andromeda.network.LyricsService
+import demos.expmind.network_client.ServiceGenerator
+import demos.expmind.network_client.models.ApiKey
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Initializes and controls related operations to a {@link YouTubePlayer}.
@@ -22,6 +30,10 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
             //For additional control on player, we can assign
             // PlaylistEventListener, PlaybackEventListener, PlayerStateChangeListener
         }
+    val lyricsService: LyricsService =
+            ServiceGenerator.createService(LyricsService::class.java, ApiKey("apikey",
+                    Configurations.MUSIXMATCH_DEVELOPER_KEY))
+
     private var currentVideo = Video("OkO2lWmInr4",
             listOf(Caption("Have you lost all your senses?"),
                     Caption("Why did you have to go tempting fate?"),
@@ -78,7 +90,27 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
 
     fun loadCurrentVideo() {
         player?.loadVideo(currentVideo.ytID)
-        view.setupSubtitles(currentVideo.subtitles)
+
+        lyricsService.search("light up the night", "symphony x").enqueue(object: Callback<LyricsResponse> {
+            override fun onResponse(call: Call<LyricsResponse>, response: Response<LyricsResponse>) {
+                if (response.isSuccessful()) {
+                    //check
+                    val lyricsDTO: LyricsResponse? = response.body();
+                    val lyricsText = lyricsDTO?.message?.body?.lyrics?.lyrics_body
+                    val hugeCaption: Caption = Caption(lyricsText ?: "Not available")
+                    view.setupSubtitles(listOf(hugeCaption))
+                } else {
+                    // handle request errors
+                    val statusCode = response.code()
+                }
+            }
+
+            override fun onFailure(call: Call<LyricsResponse>?, t: Throwable?) {
+                // handle execution failures like no internet connectivity
+                Log.e(TAG, "error on processing request")
+            }
+
+        })
     }
 
     override fun goToCaption(captionIndex: Int) {
