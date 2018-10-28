@@ -1,20 +1,15 @@
 package demos.expmind.andromeda.welcome
 
+import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
+import android.view.*
+import android.widget.Toast
 import demos.expmind.andromeda.R
 import kotlinx.android.synthetic.main.activity_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.view.*
@@ -54,6 +49,22 @@ class Welcome : AppCompatActivity(), TabLayout.OnTabSelectedListener {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_welcome, menu)
+        //Setup search action view listener
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchActionView = searchItem.actionView as SearchView
+        searchActionView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                Toast.makeText(applicationContext, "Searching " + searchActionView.query, Toast.LENGTH_SHORT).show()
+                searchItem.collapseActionView()
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+
+        })
+
         return true
     }
 
@@ -63,7 +74,7 @@ class Welcome : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true
         }
 
@@ -78,9 +89,6 @@ class Welcome : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
     }
-
-
-
 
 
     /**
