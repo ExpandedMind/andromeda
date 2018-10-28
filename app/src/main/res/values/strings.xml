@@ -32,5 +32,9 @@
     <string name="advanced">Advanced</string>
     <string name="ted_talks">TED Talks</string>
     <string name="music">Music</string>
+    <!-- Videos -->
+    <string name="videoImageContentDesc">Thumbnail</string>
+    <string name="videoLikeIcon">video like icon</string>
+    <string name="videoShareIcon">video share icon</string>
 
 </resources>
