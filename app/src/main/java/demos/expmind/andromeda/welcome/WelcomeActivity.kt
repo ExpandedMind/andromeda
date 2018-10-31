@@ -1,7 +1,6 @@
 package demos.expmind.andromeda.welcome
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -13,7 +12,7 @@ import android.widget.Toast
 import demos.expmind.andromeda.R
 import kotlinx.android.synthetic.main.activity_welcome.*
 
-class WelcomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
+class WelcomeActivity : AppCompatActivity() {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -23,23 +22,20 @@ class WelcomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
      * may be best to switch to a
      * [android.support.v4.app.FragmentStatePagerAdapter].
      */
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    private var categoriesPager: CategoriesPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-
+        categoriesPager = CategoriesPagerAdapter(supportFragmentManager)
         // Set up the ViewPager with the sections adapter.
-        container.adapter = mSectionsPagerAdapter
-
-        categoriesTabLayout.addOnTabSelectedListener(this)
+        viewPager.adapter = categoriesPager
+        // Set up tabs
+        categoriesTabLayout.setupWithViewPager(viewPager)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,32 +72,26 @@ class WelcomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onTabReselected(tab: TabLayout.Tab?) {
-    }
-
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
-    }
-
-    override fun onTabSelected(tab: TabLayout.Tab?) {
-    }
-
-
     /**
-     * A [FragmentPagerAdapter] that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
+     * A [FragmentPagerAdapter] that holds video categories and returns a {@link VideoListFragment}
+     * corresponding to one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    class CategoriesPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+        // For now, topics for our demo are hardcoded
+        companion object {
+            val CATEGORIES: List<String> =
+                    listOf("Today", "Trends", "Sports", "Video Games", "Music", "Science", "News")
+        }
 
         override fun getItem(position: Int): Fragment {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return VideoListFragment.newInstance(position + 1)
+            return VideoListFragment.newInstance(position)
         }
 
-        override fun getCount(): Int {
-            // Show 3 total pages.
-            return 1
-        }
+        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position]
+
+
+        override fun getCount(): Int = CATEGORIES.size
+
     }
 
 }
