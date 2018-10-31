@@ -6,4 +6,5 @@ package demos.expmind.andromeda.data
 /* Domain Layer Models*/
 data class Caption(val text: String)
 
-data class Video(val ytID: String, val subtitles: List<Caption>)
+data class Video(val ytID: String, val title: String, val thumbnail: String, val duration: String,
+                 val subtitles: List<Caption> = emptyList())

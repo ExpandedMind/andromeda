@@ -19,7 +19,7 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
-            android:name=".welcome.Welcome"
+            android:name=".welcome.WelcomeActivity"
             android:label="@string/title_activity_welcome"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

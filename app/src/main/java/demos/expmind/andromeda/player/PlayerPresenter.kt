@@ -35,6 +35,9 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
                     Configurations.MUSIXMATCH_DEVELOPER_KEY))
 
     private var currentVideo = Video("OkO2lWmInr4",
+            "fake title",
+            "fake thumb",
+            "fake duration",
             listOf(Caption("Have you lost all your senses?"),
                     Caption("Why did you have to go tempting fate?"),
                     Caption("Blinded by your ambitions"),
@@ -91,7 +94,7 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
     fun loadCurrentVideo() {
         player?.loadVideo(currentVideo.ytID)
 
-        lyricsService.search("light up the night", "symphony x").enqueue(object: Callback<LyricsResponse> {
+        lyricsService.search("light up the night", "symphony x").enqueue(object : Callback<LyricsResponse> {
             override fun onResponse(call: Call<LyricsResponse>, response: Response<LyricsResponse>) {
                 if (response.isSuccessful()) {
                     //check

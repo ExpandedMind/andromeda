@@ -1,6 +1,8 @@
 package demos.expmind.andromeda
 
 import android.app.Application
+import com.nostra13.universalimageloader.core.ImageLoader
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import demos.expmind.network_client.ServiceGenerator
 
 /**
@@ -11,5 +13,7 @@ class AndromedaApp : Application() {
     override fun onCreate() {
         super.onCreate()
         ServiceGenerator.setupBaseUrl(Configurations.MUSIXMATCH_URL)
+        //Init Image loader
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this))
     }
 }
