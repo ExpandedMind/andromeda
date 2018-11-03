@@ -12,7 +12,6 @@ class AndromedaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ServiceGenerator.setupBaseUrl(Configurations.MUSIXMATCH_URL)
         //Init Image loader
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this))
     }

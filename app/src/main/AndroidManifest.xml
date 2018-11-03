@@ -16,8 +16,7 @@
             android:name=".player.PlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".welcome.WelcomeActivity"
             android:label="@string/title_activity_welcome"

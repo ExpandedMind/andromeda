@@ -1,5 +1,6 @@
 package demos.expmind.andromeda.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
+import demos.expmind.andromeda.player.PlayerActivity
 import demos.expmind.andromeda.video.VideosAdapter
 
 /**
@@ -84,6 +86,6 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
 
     //TODO replace listener with Eventbus
     override fun onItemSelected(videoId: String) {
-
+        startActivity(Intent(context, PlayerActivity::class.java))
     }
 }

@@ -30,9 +30,14 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
             //For additional control on player, we can assign
             // PlaylistEventListener, PlaybackEventListener, PlayerStateChangeListener
         }
-    val lyricsService: LyricsService =
-            ServiceGenerator.createService(LyricsService::class.java, ApiKey("apikey",
-                    Configurations.MUSIXMATCH_DEVELOPER_KEY))
+
+    val lyricsService: LyricsService
+
+    init {
+        ServiceGenerator.setBaseUrl(Configurations.MUSIXMATCH_URL, ApiKey("apikey",
+                Configurations.MUSIXMATCH_DEVELOPER_KEY))
+        lyricsService = ServiceGenerator.createService(LyricsService::class.java)
+    }
 
     private var currentVideo = Video("OkO2lWmInr4",
             "fake title",
