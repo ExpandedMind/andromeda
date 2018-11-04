@@ -1,4 +1,4 @@
-package demos.expmind.network_client.models;
+package demos.expmind.network.models;
 
 /**
  * Created by RAJ1GA on 02/10/2018.

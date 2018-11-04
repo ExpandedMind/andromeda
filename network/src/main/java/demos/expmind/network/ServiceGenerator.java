@@ -1,11 +1,13 @@
-package demos.expmind.network_client;
+package demos.expmind.network;
 
+
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import demos.expmind.network_client.interceptors.ApiKeyInterceptor;
-import demos.expmind.network_client.models.ApiKey;
+import demos.expmind.network.interceptors.ApiKeyInterceptor;
+import demos.expmind.network.models.ApiKey;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -31,6 +33,7 @@ public class ServiceGenerator {
     private static OkHttpClient commonHttpClient =
             new OkHttpClient.Builder()
                     .addInterceptor(logging)
+                    .addNetworkInterceptor(new StethoInterceptor())
                     .build();
 
 

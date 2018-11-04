@@ -10,8 +10,8 @@ import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.network.LyricsResponse
 import demos.expmind.andromeda.network.LyricsService
-import demos.expmind.network_client.ServiceGenerator
-import demos.expmind.network_client.models.ApiKey
+import demos.expmind.network.ServiceGenerator
+import demos.expmind.network.models.ApiKey
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

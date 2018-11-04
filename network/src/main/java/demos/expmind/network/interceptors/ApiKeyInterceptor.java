@@ -1,9 +1,9 @@
-package demos.expmind.network_client.interceptors;
+package demos.expmind.network.interceptors;
 
 
 import java.io.IOException;
 
-import demos.expmind.network_client.models.ApiKey;
+import demos.expmind.network.models.ApiKey;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
