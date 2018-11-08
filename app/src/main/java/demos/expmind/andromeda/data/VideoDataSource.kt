@@ -1,30 +1,32 @@
 package demos.expmind.andromeda.data
 
+import demos.expmind.andromeda.data.remote.VideoCategory
+
 /**
  * Main contract to follow for any component that interacts with videos on the data layer
  */
 interface VideoDataSource {
 
-    interface getCallback {
+    interface GetCallback {
         fun onSuccess(v: Video)
         fun onError()
     }
 
-    interface getAllCallback {
+    interface GetAllCallback {
         fun onSuccess(r: List<Video>)
         fun onError()
     }
 
-    interface searchCallback {
+    interface SearchCallback {
         fun onSuccess(r: List<Video>)
         fun onResultsNotFound()
         fun onError()
     }
 
-    fun get(ytID: String)
+    fun get(ytID: String, callback: GetCallback)
 
-    fun getAll(category: String? = null)
+    fun getAll(category: VideoCategory, callback: GetAllCallback)
 
-    fun searchVideos(query: String)
+    fun search(query: String)
 
 }
