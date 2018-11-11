@@ -45,7 +45,7 @@ dependencies {
     //TODO figure out how to handle common dependencies among modules
     implementation deps.retrofit2
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
-    implementation deps.stetho
+    debugImplementation deps.stetho
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

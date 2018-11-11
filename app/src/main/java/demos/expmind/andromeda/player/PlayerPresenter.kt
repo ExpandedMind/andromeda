@@ -8,6 +8,7 @@ import com.google.android.youtube.player.YouTubePlayer
 import demos.expmind.andromeda.Configurations
 import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
+import demos.expmind.andromeda.data.remote.VideoCategory
 import demos.expmind.andromeda.network.LyricsResponse
 import demos.expmind.andromeda.network.LyricsService
 import demos.expmind.network.ServiceGenerator
@@ -43,6 +44,7 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
             "fake title",
             "fake thumb",
             "fake duration",
+            VideoCategory.MUSIC,
             listOf(Caption("Have you lost all your senses?"),
                     Caption("Why did you have to go tempting fate?"),
                     Caption("Blinded by your ambitions"),
