@@ -25,7 +25,7 @@ interface VideoDataSource {
 
     fun get(ytID: String, callback: GetCallback)
 
-    fun getAll(category: VideoCategory, callback: GetAllCallback)
+    fun getAll(fromCategory: VideoCategory, callback: GetAllCallback)
 
     fun search(query: String)
 

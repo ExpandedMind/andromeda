@@ -35,13 +35,13 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getAll(category: VideoCategory, callback: VideoDataSource.GetAllCallback) {
-        val callListVideos = service.listVideos(category.ytIndex)
+    override fun getAll(fromCategory: VideoCategory, callback: VideoDataSource.GetAllCallback) {
+        val callListVideos = service.listVideos(fromCategory.ytIndex)
         appExecutors.networkIO.execute {
             val response: Response<VideoListDTO> = callListVideos.execute()
             val videoResponse = response.body()
             if (response.isSuccessful && response.code() == 200 && videoResponse != null) {
-                val videos = dataMapper.fromDTOtoDomain(videoResponse)
+                val videos = dataMapper.fromDTOtoDomain(videoResponse, fromCategory)
                 appExecutors.mainThread.execute {
                     callback.onSuccess(videos)
                 }

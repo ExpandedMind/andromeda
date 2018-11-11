@@ -1,5 +1,7 @@
 package demos.expmind.andromeda.data
 
+import demos.expmind.andromeda.data.remote.VideoCategory
+
 
 /* Data Transfer Objects*/
 
@@ -19,4 +21,4 @@ data class ContentDetails(val duration: String, val caption: String)
 data class Caption(val text: String)
 
 data class Video(val ytID: String, val title: String, val thumbnail: String, val duration: String,
-                 val subtitles: List<Caption> = emptyList())
+                 val category: VideoCategory, val subtitles: List<Caption> = emptyList())
