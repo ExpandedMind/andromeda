@@ -42,13 +42,16 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:${versions.archLifecycle}"
     //Network
     implementation project(path: ':network')
-    //TODO figure out how to handle common dependencies among modules
     implementation deps.retrofit2
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
     debugImplementation deps.stetho
+    // Testing
     testImplementation 'junit:junit:4.12'
+    testImplementation deps.mockitoCore
+    testImplementation "org.assertj:assertj-core:3.8.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.7.0'
     //Utilities
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

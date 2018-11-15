@@ -3,19 +3,20 @@
 buildscript {
 
     ext.versions = [
-            kotlin : '1.1.51',
-            room : '1.1.1',
-            archLifecycle : '1.1.1',
-            support_lib : '27.1.1',
-            retrofit : '2.4.0',
-            stetho : '1.5.0'
+            kotlin       : '1.1.51',
+            room         : '1.1.1',
+            archLifecycle: '1.1.1',
+            support_lib  : '27.1.1',
+            retrofit     : '2.4.0',
+            stetho       : '1.5.0',
+            mockito      : '2.11.0'
     ]
 
     ext.deps = [
-        retrofit2 : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
-        stetho : "com.facebook.stetho:stetho:${versions.stetho}",
-        networkInterceptor : "com.facebook.stetho:stetho-okhttp3:${versions.stetho}"
-
+            retrofit2         : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+            stetho            : "com.facebook.stetho:stetho:${versions.stetho}",
+            networkInterceptor: "com.facebook.stetho:stetho-okhttp3:${versions.stetho}",
+            mockitoCore       : "org.mockito:mockito-core:${versions.mockito}"
     ]
     repositories {
         google()
