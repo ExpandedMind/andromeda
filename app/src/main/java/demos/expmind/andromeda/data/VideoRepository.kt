@@ -55,7 +55,7 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
         var INSTANCE: VideoRepository? = null
 
         @JvmStatic
-        fun getInstance(remoteSource: RemoteVideoDataSource) =
+        fun getInstance(remoteSource: VideoDataSource) =
                 INSTANCE ?: synchronized(VideoRepository::class.java) {
                     INSTANCE ?: VideoRepository(remoteSource).also { INSTANCE = it }
                 }

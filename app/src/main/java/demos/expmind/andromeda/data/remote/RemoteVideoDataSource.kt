@@ -66,5 +66,6 @@ enum class VideoCategory(val category: String, val ytIndex: String) {
     SPORTS("Sports", "17"),
     MOVIES("Short Movies", "18"),
     TRAVEL("Travel & Events", "19"),
-    GAMING("Gaming", "20")
+    GAMING("Gaming", "20"),
+    NEWS("News", "25")
 }
