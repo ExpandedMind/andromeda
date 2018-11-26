@@ -42,6 +42,7 @@ internal class VideosAdapter(private val mListener: VideoAdapterListener) :
     fun setVideos(newVideos: List<Video>) {
         videoList.clear()
         videoList.addAll(newVideos)
+        notifyDataSetChanged()
     }
 
     internal inner class VideoItemViewHolder(private val mRootView: View) : RecyclerView.ViewHolder(mRootView) {

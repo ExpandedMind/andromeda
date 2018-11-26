@@ -13,7 +13,7 @@ object Configurations {
      * to sign the production app's .apk file. For more information, see Signing your applications.
      * https://developer.android.com/studio/publish/app-signing.html?hl=es-419
      */
-    val YOUTUBE_DEVELOPER_KEY = "AIzaSyDdKp0mZCBOmj1_3fkq5DepM2z1Qhob6aw"
+    val YOUTUBE_DEVELOPER_KEY = "AIzaSyCDzF94m1CGsclBC9bPosmISo2XRAVDQ1A"
 
     val YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/"
 

@@ -52,7 +52,7 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
     }
 
     companion object {
-        var INSTANCE: VideoRepository? = null
+        private var INSTANCE: VideoRepository? = null
 
         @JvmStatic
         fun getInstance(remoteSource: VideoDataSource) =

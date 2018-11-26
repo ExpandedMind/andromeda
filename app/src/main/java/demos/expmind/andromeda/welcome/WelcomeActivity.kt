@@ -80,7 +80,8 @@ class WelcomeActivity : AppCompatActivity() {
         // For now, topics for our demo are hardcoded
         companion object {
             val CATEGORIES: List<String> =
-                    listOf("Today", "Trends", "Sports", "Video Games", "Music", "Science", "News")
+//                    listOf("Today", "Trends", "Sports", "Video Games", "Music", "Science", "News")
+                    listOf("Today")
         }
 
         override fun getItem(position: Int): Fragment {

@@ -1,11 +1,13 @@
 package demos.expmind.andromeda.data.remote
 
+import android.util.Log
 import demos.expmind.andromeda.common.AppExecutors
 import demos.expmind.andromeda.data.VideoDataMapper
 import demos.expmind.andromeda.data.VideoDataSource
 import demos.expmind.andromeda.data.VideoListDTO
 import demos.expmind.andromeda.network.YoutubeService
 import retrofit2.Response
+import java.net.UnknownHostException
 
 /**
  * Data source that hits server API to retrieve information.
@@ -38,14 +40,20 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
     override fun getAll(fromCategory: VideoCategory, callback: VideoDataSource.GetAllCallback) {
         val callListVideos = service.listVideos(fromCategory.ytIndex)
         appExecutors.networkIO.execute {
-            val response: Response<VideoListDTO> = callListVideos.execute()
-            val videoResponse = response.body()
-            if (response.isSuccessful && response.code() == 200 && videoResponse != null) {
-                val videos = dataMapper.fromDTOtoDomain(videoResponse, fromCategory)
-                appExecutors.mainThread.execute {
-                    callback.onSuccess(videos)
-                }
-            } else appExecutors.mainThread.execute { callback.onError() }
+            try {
+                val response: Response<VideoListDTO> = callListVideos.execute()
+                val videoResponse = response.body()
+                if (response.isSuccessful && response.code() == 200 && videoResponse != null) {
+                    val videos = dataMapper.fromDTOtoDomain(videoResponse, fromCategory)
+                    appExecutors.mainThread.execute {
+                        callback.onSuccess(videos)
+                    }
+                } else appExecutors.mainThread.execute { callback.onError() }
+            } catch (uhe: UnknownHostException) {
+                //TODO deal with no internet connenctions
+                Log.e("RemoteDataSource","No internet")
+            }
+
 
         }
     }
