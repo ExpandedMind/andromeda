@@ -13,8 +13,32 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        /**
+         * Global configuration parameters.
+         * The potential security risk of having all API keys and IP addresses exposed in a static class
+         * will be mitigated once we find a better approach, then this class will be removed.
+         * When you prepare to release your app to your users, follow these steps again and create a new
+         * OAuth 2.0 client ID for your production app. For production apps, use your own private key
+         * to sign the production app's .apk file. For more information, see Signing your applications.
+         * https://developer.android.com/studio/publish/app-signing.html?hl=es-419
+         */
+        buildConfigField 'String', 'YOUTUBE_URL', '"https://www.googleapis.com/youtube/v3/"'
+        buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyCDzF94m1CGsclBC9bPosmISo2XRAVDQ1A"'
+        buildConfigField 'String', 'MUSIXMATCH_URL', '"https://api.musixmatch.com/ws/1.1/"'
+        buildConfigField 'String', 'MUSIXMATCH_DEVELOPER_KEY', '"5b2ca4be09048f5ca57b85732f78765e"'
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            debuggable true
+        }
+        mockServer {
+            initWith debug
+            applicationIdSuffix ".mockserver"
+            buildConfigField 'String', 'YOUTUBE_URL', '"http://localhost:8080"'
+            buildConfigField 'String', 'MUSIXMATCH_URL', '"http://localhost:8080"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -51,7 +75,8 @@ dependencies {
     testImplementation "org.assertj:assertj-core:3.8.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.7.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
+
     //Utilities
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

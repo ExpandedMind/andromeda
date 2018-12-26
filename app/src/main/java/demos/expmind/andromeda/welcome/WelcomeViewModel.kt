@@ -4,8 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import android.widget.Toast
-import demos.expmind.andromeda.Configurations
+import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.common.AppExecutors
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.data.VideoDataSource
@@ -28,8 +27,8 @@ class WelcomeViewModel() : ViewModel() {
 
     init {
         //TODO checar como injectar este arbol de dependencias
-        ServiceGenerator.setBaseUrl(Configurations.YOUTUBE_URL,
-                ApiKey("key", Configurations.YOUTUBE_DEVELOPER_KEY))
+        ServiceGenerator.setBaseUrl(BuildConfig.YOUTUBE_URL,
+                ApiKey("key", BuildConfig.YOUTUBE_DEVELOPER_KEY))
         val youtubeService: YoutubeService = ServiceGenerator.createService(YoutubeService::class.java)
         val remoteDataSource: RemoteVideoDataSource =
                 RemoteVideoDataSource.getInstance(AppExecutors(), youtubeService)

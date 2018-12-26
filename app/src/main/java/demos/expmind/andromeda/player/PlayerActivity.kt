@@ -10,7 +10,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
-import demos.expmind.andromeda.Configurations
+import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Caption
 import kotlinx.android.synthetic.main.activity_player.*
@@ -37,7 +37,7 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         setContentView(R.layout.activity_player)
         lifeCycleRegistry = LifecycleRegistry(this)
         playerView = findViewById(R.id.youtube_view)
-        playerView.initialize(Configurations.YOUTUBE_DEVELOPER_KEY, this)
+        playerView.initialize(BuildConfig.YOUTUBE_DEVELOPER_KEY, this)
         presenter = PlayerPresenter(this)
         lifecycle.addObserver(presenter)
         adapter = CaptionAdapter()

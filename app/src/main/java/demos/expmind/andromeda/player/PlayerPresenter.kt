@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import com.google.android.youtube.player.YouTubePlayer
-import demos.expmind.andromeda.Configurations
+import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.data.remote.VideoCategory
@@ -35,8 +35,8 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
     val lyricsService: LyricsService
 
     init {
-        ServiceGenerator.setBaseUrl(Configurations.MUSIXMATCH_URL, ApiKey("apikey",
-                Configurations.MUSIXMATCH_DEVELOPER_KEY))
+        ServiceGenerator.setBaseUrl(BuildConfig.MUSIXMATCH_URL, ApiKey("apikey",
+                BuildConfig.MUSIXMATCH_DEVELOPER_KEY))
         lyricsService = ServiceGenerator.createService(LyricsService::class.java)
     }
 
