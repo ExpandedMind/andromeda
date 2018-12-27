@@ -9,7 +9,8 @@ buildscript {
             support_lib  : '27.1.1',
             retrofit     : '2.4.0',
             stetho       : '1.5.0',
-            mockito      : '2.11.0'
+            mockito      : '2.11.0',
+            mockserver   : '3.12.1'
     ]
 
     ext.deps = [
