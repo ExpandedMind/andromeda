@@ -1,6 +1,5 @@
 package demos.expmind.andromeda.data
 
-import demos.expmind.andromeda.data.remote.VideoCategory
 
 /**
  * Created by RAJ1GA on 07/11/2018.

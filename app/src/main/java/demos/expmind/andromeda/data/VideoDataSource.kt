@@ -1,6 +1,5 @@
 package demos.expmind.andromeda.data
 
-import demos.expmind.andromeda.data.remote.VideoCategory
 
 /**
  * Main contract to follow for any component that interacts with videos on the data layer

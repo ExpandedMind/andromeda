@@ -8,7 +8,7 @@ import com.google.android.youtube.player.YouTubePlayer
 import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
-import demos.expmind.andromeda.data.remote.VideoCategory
+import demos.expmind.andromeda.data.VideoCategory
 import demos.expmind.andromeda.network.LyricsResponse
 import demos.expmind.andromeda.network.LyricsService
 import demos.expmind.network.ServiceGenerator

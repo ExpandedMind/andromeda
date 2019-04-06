@@ -1,7 +1,5 @@
 package demos.expmind.andromeda.data
 
-import demos.expmind.andromeda.data.remote.VideoCategory
-
 
 /* Data Transfer Objects*/
 
@@ -22,3 +20,19 @@ data class Caption(val text: String)
 
 data class Video(val ytID: String, val title: String, val thumbnail: String, val duration: String,
                  val category: VideoCategory, val subtitles: List<Caption> = emptyList())
+
+/**
+ * Hardcoded categories that belong official Youtube API
+ */
+
+enum class VideoCategory(val categoryName: String, val ytIndex: String) {
+    FILM("Film & Animation", "1"),
+    VEHICLES("Autos & Vehicles", "2"),
+    MUSIC("Music", "10"),
+    PETS("Pets & Animals", "15"),
+    SPORTS("Sports", "17"),
+    MOVIES("Short Movies", "18"),
+    TRAVEL("Travel & Events", "19"),
+    GAMING("Gaming", "20"),
+    NEWS("News", "25")
+}

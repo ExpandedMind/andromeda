@@ -1,7 +1,6 @@
 package demos.expmind.andromeda.welcome
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
-import demos.expmind.andromeda.data.remote.VideoCategory
+import demos.expmind.andromeda.data.VideoCategory
 import demos.expmind.andromeda.player.PlayerActivity
 import demos.expmind.andromeda.video.VideosAdapter
+
 
 /**
  * UI Component that shows a list of videos.
@@ -26,19 +26,18 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
 
     companion object {
         /**
-         * The fragment argument representing the section number for this
-         * fragment.
+         * The fragment argument representing the video category id.
          */
-        private val ARG_SECTION_NUMBER = "section_number"
+        private val ARG_CATEGORY_NAME = "category_name"
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        fun newInstance(sectionNumber: Int): VideoListFragment {
+        fun newInstance(categoryName: String): VideoListFragment {
             val fragment = VideoListFragment()
             val args = Bundle()
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber)
+            args.putString(ARG_CATEGORY_NAME, categoryName)
             fragment.arguments = args
             return fragment
         }
@@ -84,8 +83,25 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.videoRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-        val welcomeViewModel: WelcomeViewModel = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
-        welcomeViewModel.getTodayVideos().observe(this, object : Observer<List<Video>>{
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        observeViewModel()
+    }
+
+    //TODO replace listener with Eventbus
+    override fun onItemSelected(videoId: String) {
+        startActivity(Intent(context, PlayerActivity::class.java))
+    }
+    private fun observeViewModel() {
+        //TODO replace with the most generic video cateogry ("today videos")
+        val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: VideoCategory.FILM.name
+        //TODO inject this view model
+        val welcomeViewModel: WelcomeViewModel = ViewModelProviders
+                .of(this, WelcomeViewModelFactory(VideoCategory.valueOf(categoryName)))
+                .get(categoryName, WelcomeViewModel::class.java)
+        welcomeViewModel.getTodayVideos().observe(this, object : Observer<List<Video>> {
             override fun onChanged(t: List<Video>?) {
                 t?.let {
                     adapter.setVideos(t)
@@ -93,13 +109,5 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
             }
 
         })
-//        adapter.setVideos(MOCK_VIDEOS)
-        return rootView
-    }
-
-
-    //TODO replace listener with Eventbus
-    override fun onItemSelected(videoId: String) {
-        startActivity(Intent(context, PlayerActivity::class.java))
     }
 }

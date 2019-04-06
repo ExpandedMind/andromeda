@@ -2,6 +2,7 @@ package demos.expmind.andromeda.data.remote
 
 import android.util.Log
 import demos.expmind.andromeda.common.AppExecutors
+import demos.expmind.andromeda.data.VideoCategory
 import demos.expmind.andromeda.data.VideoDataMapper
 import demos.expmind.andromeda.data.VideoDataSource
 import demos.expmind.andromeda.data.VideoListDTO
@@ -61,19 +62,4 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
     override fun search(query: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-}
-
-/**
- * Hardcoded categories that belong official Youtube API
- */
-enum class VideoCategory(val category: String, val ytIndex: String) {
-    FILM("Film & Animation", "1"),
-    VEHICLES("Autos & Vehicles", "2"),
-    MUSIC("Music", "10"),
-    PETS("Pets & Animals", "15"),
-    SPORTS("Sports", "17"),
-    MOVIES("Short Movies", "18"),
-    TRAVEL("Travel & Events", "19"),
-    GAMING("Gaming", "20"),
-    NEWS("News", "25")
 }

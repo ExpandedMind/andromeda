@@ -1,13 +1,7 @@
 package demos.expmind.andromeda.data
 
-import demos.expmind.andromeda.data.remote.RemoteVideoDataSource
-import demos.expmind.andromeda.data.remote.VideoCategory
 import java.util.LinkedHashMap
 import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.filterValues
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
 
 /**
  * Concrete implementation to load videos from the data sources into a cache.

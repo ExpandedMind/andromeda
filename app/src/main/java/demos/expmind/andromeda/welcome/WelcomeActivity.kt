@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import demos.expmind.andromeda.R
+import demos.expmind.andromeda.data.VideoCategory
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : AppCompatActivity() {
@@ -79,16 +80,14 @@ class WelcomeActivity : AppCompatActivity() {
     class CategoriesPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         // For now, topics for our demo are hardcoded
         companion object {
-            val CATEGORIES: List<String> =
-//                    listOf("Today", "Trends", "Sports", "Video Games", "Music", "Science", "News")
-                    listOf("Today")
+            val CATEGORIES: List<VideoCategory> = VideoCategory.values().asList()
         }
 
         override fun getItem(position: Int): Fragment {
-            return VideoListFragment.newInstance(position)
+            return VideoListFragment.newInstance(CATEGORIES[position].name)
         }
 
-        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position]
+        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position].categoryName
 
 
         override fun getCount(): Int = CATEGORIES.size
