@@ -3,7 +3,6 @@ package demos.expmind.andromeda.data
 import demos.expmind.andromeda.RestTestHelper
 import demos.expmind.andromeda.TestExecutors
 import demos.expmind.andromeda.data.remote.RemoteVideoDataSource
-import demos.expmind.andromeda.data.remote.VideoCategory
 import demos.expmind.andromeda.network.YoutubeService
 import demos.expmind.network.ServiceGenerator
 import okhttp3.mockwebserver.MockResponse

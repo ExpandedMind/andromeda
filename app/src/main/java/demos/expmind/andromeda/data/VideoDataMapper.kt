@@ -10,7 +10,32 @@ class VideoDataMapper {
             response.items.map {
                 Video(it.id, it.snippet.title,
                         it.snippet.thumbnails.medium?.url ?: it.snippet.thumbnails.default.url,
-                        it.contentDetails.duration, category)
+                        formatDuration(it.contentDetails.duration), category)
             }
+
+
+    fun formatDuration(durationString: String): String {
+        val formattedDuration = StringBuilder()
+        val hourExp = Regex("\\d+H")
+        val minExp = Regex("\\d+M")
+        val secExp = Regex("\\d+S")
+
+        if (hourExp.containsMatchIn(durationString)) {
+            val matchResult = hourExp.find(durationString)
+            formattedDuration.append(matchResult!!.value.replace("H","h "))
+        }
+
+        if (minExp.containsMatchIn(durationString)) {
+            val matchResult = minExp.find(durationString)
+            formattedDuration.append(matchResult!!.value.replace("M", "m "))
+        }
+
+        if (secExp.containsMatchIn(durationString)) {
+            val matchResult = secExp.find(durationString)
+            formattedDuration.append(matchResult!!.value.replace("S", "s"))
+        }
+
+        return formattedDuration.toString()
+    }
 
 }
