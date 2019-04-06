@@ -23,7 +23,7 @@ internal class VideosAdapter(private val mListener: VideoAdapterListener) :
      * Main contract to communicate with outside UI components
      */
     interface VideoAdapterListener {
-        fun onItemSelected(videoId: String)
+        fun onItemSelected(video: Video)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemViewHolder {
@@ -61,7 +61,7 @@ internal class VideosAdapter(private val mListener: VideoAdapterListener) :
             mTitleTextView.text = video.title
             ImageLoader.getInstance().displayImage(video.thumbnail, mThumbImageView, imageOptions)
             mLengthTextView.text = video.duration
-            mRootView.setOnClickListener { v -> adapterListener.onItemSelected(video.ytID) }
+            mRootView.setOnClickListener { v -> adapterListener.onItemSelected(video) }
         }
     }
 

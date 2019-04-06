@@ -13,6 +13,7 @@ import com.google.android.youtube.player.YouTubePlayerView
 import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Caption
+import demos.expmind.andromeda.data.Video
 import kotlinx.android.synthetic.main.activity_player.*
 
 /**
@@ -23,6 +24,8 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
 
     lateinit var presenter: PlayerPresenter
     var currentlySelectedId: String? = ""
+    //FIXME THIS UI state should be wrapped by VIEWModel
+    lateinit var selectedVideo: Video
     lateinit var playerView: YouTubePlayerView
     lateinit private var lifeCycleRegistry: LifecycleRegistry
     lateinit var adapter: CaptionAdapter
@@ -30,12 +33,15 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
     companion object {
         val RECOVERY_DIALOG_REQUEST = 1
         val KEY_CURRENTLY_SELECTED_ID = "restore:selected_id"
+        val SELECTED_VIDEO = "EXTRA:SELECTED:VIDEO"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         lifeCycleRegistry = LifecycleRegistry(this)
+        selectedVideo = intent.getParcelableExtra(SELECTED_VIDEO)
+        currentlySelectedId = selectedVideo.ytID
         playerView = findViewById(R.id.youtube_view)
         playerView.initialize(BuildConfig.YOUTUBE_DEVELOPER_KEY, this)
         presenter = PlayerPresenter(this)
@@ -82,7 +88,7 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
                                          youtubePlayer: YouTubePlayer, wasRestored: Boolean) {
         presenter.player = youtubePlayer
         if (!wasRestored) {
-            presenter.loadCurrentVideo()
+            presenter.loadVideo(selectedVideo)
         }
     }
 

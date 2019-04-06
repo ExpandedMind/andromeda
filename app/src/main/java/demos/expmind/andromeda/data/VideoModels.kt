@@ -1,5 +1,8 @@
 package demos.expmind.andromeda.data
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 
 /* Data Transfer Objects*/
 
@@ -16,16 +19,18 @@ data class Thumb(val url: String, val width: Int, val height: Int)
 data class ContentDetails(val duration: String, val caption: String)
 
 /* Domain Layer Models*/
-data class Caption(val text: String)
+@Parcelize
+data class Caption(val text: String) : Parcelable
 
+@Parcelize
 data class Video(val ytID: String, val title: String, val thumbnail: String, val duration: String,
-                 val category: VideoCategory, val subtitles: List<Caption> = emptyList())
+                 val category: VideoCategory, val subtitles: List<Caption> = emptyList()) : Parcelable
 
 /**
  * Hardcoded categories that belong official Youtube API
  */
-
-enum class VideoCategory(val categoryName: String, val ytIndex: String) {
+@Parcelize
+enum class VideoCategory(val categoryName: String, val ytIndex: String) : Parcelable {
     FILM("Film & Animation", "1"),
     VEHICLES("Autos & Vehicles", "2"),
     MUSIC("Music", "10"),

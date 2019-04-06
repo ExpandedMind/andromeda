@@ -42,39 +42,6 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
             return fragment
         }
 
-        /**
-         * Fake data
-         */
-
-        val MOCK_VIDEOS = listOf<Video>(
-                Video("Io0fBr1XBUA",
-                        "The Chainsmokers - Don't Let Me Down ft. Daya",
-                        "https://i.ytimg.com/vi/Io0fBr1XBUA/mqdefault.jpg",
-                        "03:38", VideoCategory.FILM),
-                Video("VgVQKCcfwnU",
-                        "The NEW Periodic Table Song (Updated)",
-                        "https://i.ytimg.com/vi/VgVQKCcfwnU/mqdefault.jpg",
-                        "02:54", VideoCategory.FILM),
-                Video("YuOBzWF0Aws",
-                        "If Google Was A Guy",
-                        "https://i.ytimg.com/vi/YuOBzWF0Aws/mqdefault.jpg",
-                        "02:12", VideoCategory.FILM),
-                Video("2l2HQdPt92U",
-                        "Miley Cyrus, Alicia Keys, Adam Levine and Blake Shelton: \\\"Dream On\\\" - The Voice 2016",
-                        "https://i.ytimg.com/vi/2l2HQdPt92U/mqdefault.jpg",
-                        "03:38", VideoCategory.FILM),
-                Video("wTAJSuhgZxA",
-                        "Ellen Inspired Adele's New Song",
-                        "https://i.ytimg.com/vi/wTAJSuhgZxA/mqdefault.jpg",
-                        "02:50", VideoCategory.FILM),
-                Video("Wh8m4PYlSGY",
-                        "J.Lo and Ellen Play Never Have I Ever",
-                        "https://i.ytimg.com/vi/Wh8m4PYlSGY/mqdefault.jpg",
-                        "02:44", VideoCategory.FILM),
-                Video("GjkFr48jk68",
-                        "Official Trailer: Hindi Medium | Irrfan Khan | Saba Qamar & Deepak Dobriyal | In Cinemas 12th May",
-                        "https://i.ytimg.com/vi/GjkFr48jk68/mqdefault.jpg",
-                        "02:43", VideoCategory.FILM))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -91,8 +58,10 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     }
 
     //TODO replace listener with Eventbus
-    override fun onItemSelected(videoId: String) {
-        startActivity(Intent(context, PlayerActivity::class.java))
+    override fun onItemSelected(video: Video) {
+        val toVideoIntent = Intent(context, PlayerActivity::class.java)
+        toVideoIntent.putExtra(PlayerActivity.SELECTED_VIDEO, video)
+        startActivity(toVideoIntent)
     }
     private fun observeViewModel() {
         //TODO replace with the most generic video cateogry ("today videos")
