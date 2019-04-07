@@ -30,7 +30,7 @@ class VideoRepositoryTest {
     @Mock
     lateinit var mockRemoteSource: VideoDataSource
     var newsVideo: Video = Video("id1", "white house is broken", "thumb_url", "2:35",
-            VideoCategory.NEWS)
+            VideoCategory.SCIENCE)
     var petsVideo1: Video = Video("idpet1", "how to call your dog", "pet_thumb1", "1:08", VideoCategory.PETS)
     var petsVideo2: Video = Video("idpet2", "naughty cats", "pet_thumb2", "4:16", VideoCategory.PETS)
     var sportsVideo: Video = Video("idsports1", "Chicago Cubs won the series", "thumb_url", "1:22",
@@ -100,7 +100,7 @@ class VideoRepositoryTest {
     fun getAll_serviceUnavailable_notifiesOnError() {
         server.enqueue(MockResponse().setResponseCode(500).setBody("Service Unavailable"))
 
-        repository.getAll(VideoCategory.NEWS, getAllCallback);
+        repository.getAll(VideoCategory.SCIENCE, getAllCallback);
 
         verify(getAllCallback).onError()
     }
@@ -113,7 +113,7 @@ class VideoRepositoryTest {
                 Pair(sportsVideo.ytID, sportsVideo))
         repository.cacheVideos.putAll(sampleVideos)
 
-        repository.getAll(VideoCategory.NEWS, getAllCallback)
+        repository.getAll(VideoCategory.SCIENCE, getAllCallback)
 
         //Verify that callback was called with expected video list
         verify(getAllCallback).onSuccess(listOf(newsVideo))

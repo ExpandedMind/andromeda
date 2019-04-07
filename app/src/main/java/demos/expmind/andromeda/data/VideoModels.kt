@@ -36,8 +36,8 @@ enum class VideoCategory(val categoryName: String, val ytIndex: String) : Parcel
     MUSIC("Music", "10"),
     PETS("Pets & Animals", "15"),
     SPORTS("Sports", "17"),
-    MOVIES("Short Movies", "18"),
-    TRAVEL("Travel & Events", "19"),
+    COMEDY("Comedy", "23"),
+    HOWTO("Howto's", "26"),
     GAMING("Gaming", "20"),
-    NEWS("News", "25")
+    SCIENCE("Science", "28"),
 }
