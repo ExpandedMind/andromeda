@@ -25,8 +25,6 @@ android {
          */
         buildConfigField 'String', 'YOUTUBE_URL', '"https://www.googleapis.com/youtube/v3/"'
         buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyCDzF94m1CGsclBC9bPosmISo2XRAVDQ1A"'
-        buildConfigField 'String', 'MUSIXMATCH_URL', '"https://api.musixmatch.com/ws/1.1/"'
-        buildConfigField 'String', 'MUSIXMATCH_DEVELOPER_KEY', '"5b2ca4be09048f5ca57b85732f78765e"'
     }
     buildTypes {
         debug {
@@ -38,7 +36,6 @@ android {
             initWith debug
             applicationIdSuffix ".mockserver"
             buildConfigField 'String', 'YOUTUBE_URL', '"http://localhost:8080"'
-            buildConfigField 'String', 'MUSIXMATCH_URL', '"http://localhost:8080"'
         }
         release {
             minifyEnabled false
