@@ -8,15 +8,16 @@ import kotlinx.android.parcel.Parcelize
 
 data class VideoListDTO(val nextPageToken: String, val items: List<VideoItem>)
 
-data class VideoItem(val id: String, val snippet: VideoSnippet, val contentDetails: ContentDetails)
+data class VideoItem(val id: VideoID, val snippet: VideoSnippet)
 
-data class VideoSnippet(val title: String, val thumbnails: VideoIcons)
+data class VideoID(val kind: String, val videoId: String)
 
-data class VideoIcons(val default: Thumb, val medium: Thumb?, val high: Thumb?, val standard: Thumb?, val maxRes: Thumb?)
+data class VideoSnippet(val title: String, val thumbnails: VideoIcons, val channelTitle: String)
+
+data class VideoIcons(val default: Thumb, val medium: Thumb?, val high: Thumb?)
 
 data class Thumb(val url: String, val width: Int, val height: Int)
 
-data class ContentDetails(val duration: String, val caption: String)
 
 /* Domain Layer Models*/
 @Parcelize

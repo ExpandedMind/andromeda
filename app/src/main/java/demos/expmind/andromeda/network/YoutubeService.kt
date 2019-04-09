@@ -10,13 +10,18 @@ import retrofit2.http.Query
  */
 interface   YoutubeService {
 
-    @GET("videos")
-    fun listVideos(@Query("videoCategoryId") categoryId: String,
-                   @Query("part") part: String = "snippet,contentDetails",
-                   @Query("chart") chart: String = "mostPopular",
-                   @Query("maxResults") maxResults: Int = 10,
+    @GET("search")
+    fun listVideos(@Query("videoCategoryId") categoryId: String = "",
+                   @Query("q") query: String = "",
+                   @Query("part") part: String = "snippet",
+                   @Query("eventType") eventType: String = "completed",
+                   @Query("maxResults") maxResults: Int = 25,
+                   @Query("order") order: String = "relevance", // can be date, rating, title, videoCount, viewCount
                    @Query("regionCode") regionCode: String = "US",
-                   @Query("prettyPrint") prettyPrint: Boolean = true
+                   @Query("relevanceLanguage") relevanceLanguage: String = "en",
+                   @Query("type") type: String = "video",
+                   @Query("videoCaption") captions: String = "closedCaption",
+                   @Query("videoDuration") prettyPrint: String = "short" // can be medium, long, any
     ) : Call<VideoListDTO>
 
 }
