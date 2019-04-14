@@ -13,7 +13,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+/**
+ * This class will be replaced by Dagger Dependency Injection
+ */
+@Deprecated
 public class ServiceGenerator {
 
     private static Retrofit currentRetrofit;

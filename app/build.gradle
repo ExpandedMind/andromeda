@@ -25,6 +25,7 @@ android {
          */
         buildConfigField 'String', 'YOUTUBE_URL', '"https://www.googleapis.com/youtube/v3/"'
         buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyCDzF94m1CGsclBC9bPosmISo2XRAVDQ1A"'
+        buildConfigField 'String', 'VIDEO_CAPTIONS_URL', '"http://video.google.com/"'
     }
     buildTypes {
         debug {
@@ -71,6 +72,7 @@ dependencies {
     implementation project(path: ':network')
     implementation deps.retrofit2
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-simplexml:${versions.retrofit}"
     debugImplementation deps.stetho
     // Testing
     testImplementation 'junit:junit:4.12'

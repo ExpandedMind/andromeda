@@ -5,25 +5,45 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import com.google.android.youtube.player.YouTubePlayer
+import demos.expmind.andromeda.BuildConfig
+import demos.expmind.andromeda.data.TranscriptDTO
+import demos.expmind.andromeda.data.TranscriptDataMapper
 import demos.expmind.andromeda.data.Video
+import demos.expmind.andromeda.network.CaptionsService
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 /**
  * Initializes and controls related operations to a {@link YouTubePlayer}.
  * Coordinates player with events coming from view layer.
  */
+@SuppressWarnings("Deprecated")
 class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter, LifecycleObserver {
 
     var player: YouTubePlayer? = null
         set(value) {
             field = value
             field?.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT)
-            field?.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL)
+            field?.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT)
             //For additional control on player, we can assign
             // PlaylistEventListener, PlaybackEventListener, PlayerStateChangeListener
         }
+    val service: CaptionsService
+    var transcriptCall: Call<TranscriptDTO>? = null
+    val mapper: TranscriptDataMapper = TranscriptDataMapper()
 
     init {
-
+        //TODO: CaptionsService instance will be injected through Dagger 2
+        val retrofit = Retrofit.Builder()
+                .baseUrl(BuildConfig.VIDEO_CAPTIONS_URL)
+                .client(OkHttpClient())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build()
+        service = retrofit.create(CaptionsService::class.java)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -35,6 +55,7 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
     fun lifeCycleOwnerDestroyed() {
         Log.d(TAG, "host life cycle component destroyed")
         player?.release()
+        transcriptCall?.cancel()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -50,6 +71,27 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
 
     fun loadVideo(video: Video) {
         player?.loadVideo(video.ytID)
+        transcriptCall = service.getTranscript(video.ytID)
+        transcriptCall?.enqueue(object : Callback<TranscriptDTO> {
+            override fun onResponse(call: Call<TranscriptDTO>, response: Response<TranscriptDTO>) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, "successul")
+                    response.body()?.let {
+                        view.setupSubtitles(mapper.fromDTOToModel(it))
+                    }
+                } else {
+                    when(response.code()) {
+                        404 -> Log.d(TAG, "TranscriptDTO not found for this video")
+                        else -> Log.e(TAG, "something went wrong with request")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TranscriptDTO>, t: Throwable) {
+                Log.d(TAG, "error", t)
+            }
+
+        })
     }
 
     override fun goToCaption(captionIndex: Int) {
