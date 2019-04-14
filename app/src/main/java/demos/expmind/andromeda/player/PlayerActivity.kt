@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
@@ -48,6 +49,8 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         lifecycle.addObserver(presenter)
         adapter = CaptionAdapter()
         captionsRecycler.layoutManager = LinearLayoutManager(this)
+        captionsRecycler.itemAnimator = DefaultItemAnimator()
+        captionsRecycler.emptyView = findViewById(R.id.empty_captions_view)
         captionsRecycler.adapter = adapter
         lifeCycleRegistry.markState(Lifecycle.State.CREATED)
     }

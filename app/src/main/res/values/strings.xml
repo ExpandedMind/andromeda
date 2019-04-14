@@ -36,5 +36,6 @@
     <string name="videoImageContentDesc">Thumbnail</string>
     <string name="videoLikeIcon">video like icon</string>
     <string name="videoShareIcon">video share icon</string>
+    <string name="no_captions">No Subtitles available for this video</string>
 
 </resources>
