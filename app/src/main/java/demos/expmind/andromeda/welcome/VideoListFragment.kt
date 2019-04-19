@@ -2,6 +2,7 @@ package demos.expmind.andromeda.welcome
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,11 +11,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.data.VideoCategory
+import demos.expmind.andromeda.network.YoutubeService
 import demos.expmind.andromeda.player.PlayerActivity
 import demos.expmind.andromeda.video.VideosAdapter
+import javax.inject.Inject
 
 
 /**
@@ -23,6 +27,8 @@ import demos.expmind.andromeda.video.VideosAdapter
 class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
 
     private val adapter: VideosAdapter = VideosAdapter(this)
+    @Inject
+    lateinit var service: YoutubeService
 
     companion object {
         /**
@@ -42,6 +48,11 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
             return fragment
         }
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (context.applicationContext as AndromedaApp).getApplicationComponent().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +79,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
         val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: VideoCategory.FILM.name
         //TODO inject this view model
         val welcomeViewModel: WelcomeViewModel = ViewModelProviders
-                .of(this, WelcomeViewModelFactory(VideoCategory.valueOf(categoryName)))
+                .of(this, WelcomeViewModelFactory(VideoCategory.valueOf(categoryName), service))
                 .get(categoryName, WelcomeViewModel::class.java)
         welcomeViewModel.getTodayVideos().observe(this, object : Observer<List<Video>> {
             override fun onChanged(t: List<Video>?) {
