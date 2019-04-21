@@ -3,7 +3,6 @@ package demos.expmind.andromeda.network;
 
 import java.io.IOException;
 
-import demos.expmind.network.models.ApiKey;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;

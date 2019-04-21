@@ -4,7 +4,7 @@ import demos.expmind.andromeda.RestTestHelper
 import demos.expmind.andromeda.TestExecutors
 import demos.expmind.andromeda.data.remote.RemoteVideoDataSource
 import demos.expmind.andromeda.network.YoutubeService
-import demos.expmind.network.ServiceGenerator
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Java6Assertions.assertThat
@@ -15,10 +15,12 @@ import org.mockito.*
 import org.mockito.Mockito.*
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
+import retrofit2.Retrofit
 
 /**
  * Created by RAJ1GA on 14/11/2018.
  */
+//TODO revisit tests related to mockwebserver, they fail
 class VideoRepositoryTest {
 
     val server: MockWebServer = MockWebServer()
@@ -35,14 +37,19 @@ class VideoRepositoryTest {
     var petsVideo2: Video = Video("idpet2", "naughty cats", "pet_thumb2", "4:16", VideoCategory.PETS)
     var sportsVideo: Video = Video("idsports1", "Chicago Cubs won the series", "thumb_url", "1:22",
             VideoCategory.SPORTS)
+    val httpClient: OkHttpClient = OkHttpClient.Builder().build()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         server.start()
-        ServiceGenerator.setBaseUrl(server.url("/").toString())
+        val retrofit =
+                Retrofit.Builder()
+                        .baseUrl(server.url("/").toString())
+                        .client(httpClient)
+                        .build()
         val remoteSource = RemoteVideoDataSource.getInstance(TestExecutors(),
-                ServiceGenerator.createService(YoutubeService::class.java))
+                retrofit.create(YoutubeService::class.java))
         repository = VideoRepository.getInstance(remoteSource)
     }
 

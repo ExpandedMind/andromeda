@@ -71,7 +71,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${versions.archLifecycle}"
     annotationProcessor "android.arch.lifecycle:compiler:${versions.archLifecycle}"
     //Network
-    implementation project(path: ':network')
     implementation deps.retrofit2
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-simplexml:${versions.retrofit}"
