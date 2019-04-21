@@ -9,12 +9,14 @@ import dagger.Provides;
 import dagger.Reusable;
 import demos.expmind.andromeda.BuildConfig;
 import demos.expmind.andromeda.network.ApiKeyInterceptor;
+import demos.expmind.andromeda.network.CaptionsService;
 import demos.expmind.andromeda.network.YoutubeService;
 import demos.expmind.network.models.ApiKey;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 @Module
 public abstract class NetworkModule {
@@ -42,4 +44,16 @@ public abstract class NetworkModule {
                 .build();
         return retrofit.create(YoutubeService.class);
     }
+
+    @Provides
+    @Reusable
+    public static CaptionsService providesCaptionsService(OkHttpClient commonClient) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.VIDEO_CAPTIONS_URL)
+                .client(commonClient)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build();
+        return retrofit.create(CaptionsService.class);
+    }
+
 }

@@ -11,11 +11,13 @@ import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
+import dagger.android.AndroidInjection
 import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Caption
 import demos.expmind.andromeda.data.Video
 import kotlinx.android.synthetic.main.activity_player.*
+import javax.inject.Inject
 
 /**
  * View layer in charge to load video and subtitles to the UI
@@ -23,7 +25,9 @@ import kotlinx.android.synthetic.main.activity_player.*
 class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer.OnInitializedListener,
         LifecycleOwner {
 
+    @Inject
     lateinit var presenter: PlayerPresenter
+
     var currentlySelectedId: String? = ""
     //FIXME THIS UI state should be wrapped by VIEWModel
     lateinit var selectedVideo: Video
@@ -38,6 +42,7 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         lifeCycleRegistry = LifecycleRegistry(this)
@@ -45,7 +50,6 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         currentlySelectedId = selectedVideo.ytID
         playerView = findViewById(R.id.youtube_view)
         playerView.initialize(BuildConfig.YOUTUBE_DEVELOPER_KEY, this)
-        presenter = PlayerPresenter(this)
         lifecycle.addObserver(presenter)
         adapter = CaptionAdapter()
         captionsRecycler.layoutManager = LinearLayoutManager(this)

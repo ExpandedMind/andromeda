@@ -5,24 +5,22 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import com.google.android.youtube.player.YouTubePlayer
-import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.data.TranscriptDTO
 import demos.expmind.andromeda.data.TranscriptDataMapper
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.network.CaptionsService
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import javax.inject.Inject
 
 /**
  * Initializes and controls related operations to a {@link YouTubePlayer}.
  * Coordinates player with events coming from view layer.
  */
 @SuppressWarnings("Deprecated")
-class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter, LifecycleObserver {
+class PlayerPresenter  @Inject constructor(val view: PlayerContract.View, val service: CaptionsService)
+    : PlayerContract.Presenter, LifecycleObserver {
 
     var player: YouTubePlayer? = null
         set(value) {
@@ -32,19 +30,11 @@ class PlayerPresenter(val view: PlayerContract.View) : PlayerContract.Presenter,
             //For additional control on player, we can assign
             // PlaylistEventListener, PlaybackEventListener, PlayerStateChangeListener
         }
-    val service: CaptionsService
+
     var transcriptCall: Call<TranscriptDTO>? = null
+
     val mapper: TranscriptDataMapper = TranscriptDataMapper()
 
-    init {
-        //TODO: CaptionsService instance will be injected through Dagger 2
-        val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.VIDEO_CAPTIONS_URL)
-                .client(OkHttpClient())
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build()
-        service = retrofit.create(CaptionsService::class.java)
-    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun start() {
