@@ -16,12 +16,12 @@ interface   YoutubeService {
                    @Query("part") part: String = "snippet",
                    @Query("eventType") eventType: String = "completed",
                    @Query("maxResults") maxResults: Int = 25,
-                   @Query("order") order: String = "relevance", // can be date, rating, title, videoCount, viewCount
+                   @Query("order") order: String = "date", // can be date, rating, title, videoCount, viewCount
                    @Query("regionCode") regionCode: String = "US",
                    @Query("relevanceLanguage") relevanceLanguage: String = "en",
                    @Query("type") type: String = "video",
                    @Query("videoCaption") captions: String = "closedCaption",
-                   @Query("videoDuration") prettyPrint: String = "short" // can be medium, long, any
+                   @Query("videoDuration") videoDuration: String = "short" // can be medium, long, any
     ) : Call<VideoListDTO>
 
 }

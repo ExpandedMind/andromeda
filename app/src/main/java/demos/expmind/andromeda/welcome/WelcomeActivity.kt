@@ -1,5 +1,6 @@
 package demos.expmind.andromeda.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.VideoCategory
+import demos.expmind.andromeda.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : AppCompatActivity() {
@@ -45,8 +47,10 @@ class WelcomeActivity : AppCompatActivity() {
         val searchItem = menu.findItem(R.id.action_search)
         val searchActionView = searchItem.actionView as SearchView
         searchActionView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                Toast.makeText(applicationContext, "Searching " + searchActionView.query, Toast.LENGTH_SHORT).show()
+            override fun onQueryTextSubmit(submit: String?): Boolean {
+                val searchIntent = Intent(this@WelcomeActivity, SearchActivity::class.java)
+                searchIntent.putExtras(Bundle().also { it.putString(SearchActivity.EXTRA_QUERY, submit) })
+                startActivity(searchIntent)
                 searchItem.collapseActionView()
                 return true
             }

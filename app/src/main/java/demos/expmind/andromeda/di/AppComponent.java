@@ -6,13 +6,15 @@ import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
 import demos.expmind.andromeda.AndromedaApp;
+import demos.expmind.andromeda.data.DataLayerModule;
 import demos.expmind.andromeda.welcome.VideoListFragment;
 
 @Singleton
 @Component(modules = {AppModule.class,
         AndroidSupportInjectionModule.class,
         NetworkModule.class,
-        BuildersModule.class})
+        BuildersModule.class,
+        DataLayerModule.class})
 public interface AppComponent {
 
     @Component.Builder
@@ -23,6 +25,6 @@ public interface AppComponent {
     }
 
     void inject(AndromedaApp app);
-
+    //TODO Change this injection , make it thorugh AndroidInjector.inject(fragment)
     void inject(VideoListFragment videoListFragment);
 }

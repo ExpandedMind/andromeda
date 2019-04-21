@@ -41,4 +41,5 @@ enum class VideoCategory(val categoryName: String, val ytIndex: String) : Parcel
     HOWTO("Howto's", "26"),
     GAMING("Gaming", "20"),
     SCIENCE("Science", "28"),
+    UNKNOWN("NotClassified", "0")
 }

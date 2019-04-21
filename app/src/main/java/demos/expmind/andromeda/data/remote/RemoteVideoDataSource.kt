@@ -52,14 +52,35 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
                 } else appExecutors.mainThread.execute { callback.onError() }
             } catch (uhe: UnknownHostException) {
                 //TODO deal with no internet connenctions
-                Log.e("RemoteDataSource","No internet")
+                Log.e("RemoteDataSource", "No internet")
             }
 
 
         }
     }
 
-    override fun search(query: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun search(query: String, callback: VideoDataSource.SearchCallback) {
+        val searchCall = service.listVideos(categoryId = VideoCategory.MUSIC.ytIndex, query = query, maxResults = 50, order = "relevance",
+                videoDuration = "any")
+        appExecutors.networkIO.execute {
+
+            try {
+                val response = searchCall.execute()
+                if (response.isSuccessful && response.body() != null) {
+                    val foundVideos = dataMapper.fromDTOtoDomain(response.body()!!, VideoCategory.UNKNOWN)
+                    appExecutors.mainThread.execute {
+                        callback.onSuccess(foundVideos)
+                    }
+                } else {
+                    appExecutors.mainThread.execute {
+                        callback.onResultsNotFound()
+                    }
+                }
+            } catch (uhe: UnknownHostException) {
+                callback.onError()
+            }
+
+        }
     }
+
 }

@@ -41,8 +41,8 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
         })
     }
 
-    override fun search(query: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun search(query: String, callback: VideoDataSource.SearchCallback) {
+        remoteSource.search(query, callback)
     }
 
     companion object {

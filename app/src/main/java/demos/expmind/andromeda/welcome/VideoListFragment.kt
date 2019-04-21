@@ -74,6 +74,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
         toVideoIntent.putExtra(PlayerActivity.SELECTED_VIDEO, video)
         startActivity(toVideoIntent)
     }
+
     private fun observeViewModel() {
         //TODO replace with the most generic video cateogry ("today videos")
         val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: VideoCategory.FILM.name

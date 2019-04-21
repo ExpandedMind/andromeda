@@ -5,6 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import demos.expmind.andromeda.AndromedaApp;
+import demos.expmind.andromeda.common.AppExecutors;
 
 /**
  * Application wide dependencies
@@ -17,5 +18,9 @@ public class AppModule {
         return app.getApplicationContext();
     }
 
+    @Provides
+    AppExecutors providesAppExecutors() {
+        return new AppExecutors();
+    }
 
 }
