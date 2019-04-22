@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
-import demos.expmind.andromeda.data.VideoCategory
+import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.network.YoutubeService
 import demos.expmind.andromeda.player.PlayerActivity
 import demos.expmind.andromeda.video.VideosAdapter
@@ -77,10 +77,10 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
 
     private fun observeViewModel() {
         //TODO replace with the most generic video cateogry ("today videos")
-        val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: VideoCategory.FILM.name
+        val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: YoutubeChannels.TED.name
         //TODO inject this view model
         val welcomeViewModel: WelcomeViewModel = ViewModelProviders
-                .of(this, WelcomeViewModelFactory(VideoCategory.valueOf(categoryName), service))
+                .of(this, WelcomeViewModelFactory(YoutubeChannels.valueOf(categoryName), service))
                 .get(categoryName, WelcomeViewModel::class.java)
         welcomeViewModel.getTodayVideos().observe(this, object : Observer<List<Video>> {
             override fun onChanged(t: List<Video>?) {

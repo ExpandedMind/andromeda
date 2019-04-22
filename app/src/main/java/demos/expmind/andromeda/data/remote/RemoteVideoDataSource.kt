@@ -2,12 +2,13 @@ package demos.expmind.andromeda.data.remote
 
 import android.util.Log
 import demos.expmind.andromeda.common.AppExecutors
-import demos.expmind.andromeda.data.VideoCategory
+import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.data.VideoDataMapper
 import demos.expmind.andromeda.data.VideoDataSource
 import demos.expmind.andromeda.data.VideoListDTO
 import demos.expmind.andromeda.network.YoutubeService
 import retrofit2.Response
+import java.lang.Exception
 import java.net.UnknownHostException
 
 /**
@@ -38,7 +39,7 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getAll(fromCategory: VideoCategory, callback: VideoDataSource.GetAllCallback) {
+    override fun getAll(fromCategory: YoutubeChannels, callback: VideoDataSource.GetAllCallback) {
         val callListVideos = service.listVideos(fromCategory.ytIndex)
         appExecutors.networkIO.execute {
             try {
@@ -50,8 +51,9 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
                         callback.onSuccess(videos)
                     }
                 } else appExecutors.mainThread.execute { callback.onError() }
-            } catch (uhe: UnknownHostException) {
+            } catch (uhe: Exception) {
                 //TODO deal with no internet connenctions
+                callback.onError()
                 Log.e("RemoteDataSource", "No internet")
             }
 
@@ -60,14 +62,13 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
     }
 
     override fun search(query: String, callback: VideoDataSource.SearchCallback) {
-        val searchCall = service.listVideos(categoryId = VideoCategory.MUSIC.ytIndex, query = query, maxResults = 50, order = "relevance",
-                videoDuration = "any")
+        val searchCall = service.searchVideos(query)
         appExecutors.networkIO.execute {
 
             try {
                 val response = searchCall.execute()
                 if (response.isSuccessful && response.body() != null) {
-                    val foundVideos = dataMapper.fromDTOtoDomain(response.body()!!, VideoCategory.UNKNOWN)
+                    val foundVideos = dataMapper.fromDTOtoDomain(response.body()!!, YoutubeChannels.BBC)
                     appExecutors.mainThread.execute {
                         callback.onSuccess(foundVideos)
                     }

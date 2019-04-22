@@ -25,21 +25,21 @@ data class Caption(val text: String) : Parcelable
 
 @Parcelize
 data class Video(val ytID: String, val title: String, val thumbnail: String, val duration: String,
-                 val category: VideoCategory, val subtitles: List<Caption> = emptyList()) : Parcelable
+                 val category: YoutubeChannels, val subtitles: List<Caption> = emptyList()) : Parcelable
 
 /**
  * Hardcoded categories that belong official Youtube API
  */
 @Parcelize
-enum class VideoCategory(val categoryName: String, val ytIndex: String) : Parcelable {
-    FILM("Film & Animation", "1"),
-    VEHICLES("Autos & Vehicles", "2"),
-    MUSIC("Music", "10"),
-    PETS("Pets & Animals", "15"),
-    SPORTS("Sports", "17"),
-    COMEDY("Comedy", "23"),
-    HOWTO("Howto's", "26"),
-    GAMING("Gaming", "20"),
-    SCIENCE("Science", "28"),
-    UNKNOWN("NotClassified", "0")
+enum class YoutubeChannels(val channelName: String, val ytIndex: String, val lang: String = "en") : Parcelable {
+    TED("TED Talks", "UCAuUUnT6oDeKwE6v1NGQxug"),
+    SCIENCE("Science", "UCUHW94eEFW7hkUMVaZz4eDg"),
+    BBC("BBC Learning", "UCHaHD477h-FeBbVh9Sh7syA", "en-GB"),
+    VOA("Voice of America", "UCKyTokYo0nK2OA-az-sDijA"),
+    TOEFL("Toefl TV", "UCEI_IuJ2jdqjYl0T-k04RLw"),
+    ENGVID("English with Emma", "UCVBErcpqaokOf4fI5j73K_w"),
+    OXFORD("Oxford Online", "UCNbeSPp8RYKmHUliYBUDizg"),
+    TV("TV Series", "UCKgpamMlm872zkGDcBJHYDg"),
+    SKILLS("Daily Life", "UCC3UrdqNf6rpWZoTiYbYk4A", "en-GB"),
+    IELTS("IELTS", "UCicjynhfFw2LiIQFnoS1JTw", "en-GB")
 }

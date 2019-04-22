@@ -61,7 +61,7 @@ class PlayerPresenter  @Inject constructor(val view: PlayerContract.View, val se
 
     fun loadVideo(video: Video) {
         player?.loadVideo(video.ytID)
-        transcriptCall = service.getTranscript(video.ytID)
+        transcriptCall = service.getTranscript(video.ytID, lang = video.category.lang)
         transcriptCall?.enqueue(object : Callback<TranscriptDTO> {
             override fun onResponse(call: Call<TranscriptDTO>, response: Response<TranscriptDTO>) {
                 if (response.isSuccessful) {

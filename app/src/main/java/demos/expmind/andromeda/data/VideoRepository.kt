@@ -17,7 +17,7 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getAll(fromCategory: VideoCategory, callback: VideoDataSource.GetAllCallback) {
+    override fun getAll(fromCategory: YoutubeChannels, callback: VideoDataSource.GetAllCallback) {
         val videosFromCategory = cacheVideos.filterValues { it.category.equals(fromCategory) }
         // In case there are videos on cache, then return them immediately
         if (videosFromCategory.isNotEmpty()) {

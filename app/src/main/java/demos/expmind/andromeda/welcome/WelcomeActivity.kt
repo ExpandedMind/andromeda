@@ -9,9 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import demos.expmind.andromeda.R
-import demos.expmind.andromeda.data.VideoCategory
+import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 
@@ -84,14 +83,14 @@ class WelcomeActivity : AppCompatActivity() {
     class CategoriesPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         // For now, topics for our demo are hardcoded
         companion object {
-            val CATEGORIES: List<VideoCategory> = VideoCategory.values().asList()
+            val CATEGORIES: List<YoutubeChannels> = YoutubeChannels.values().asList()
         }
 
         override fun getItem(position: Int): Fragment {
             return VideoListFragment.newInstance(CATEGORIES[position].name)
         }
 
-        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position].categoryName
+        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position].channelName
 
 
         override fun getCount(): Int = CATEGORIES.size

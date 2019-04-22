@@ -11,17 +11,24 @@ import retrofit2.http.Query
 interface   YoutubeService {
 
     @GET("search")
-    fun listVideos(@Query("videoCategoryId") categoryId: String = "",
-                   @Query("q") query: String = "",
+    fun listVideos(@Query("channelId") channelID: String,
                    @Query("part") part: String = "snippet",
-                   @Query("eventType") eventType: String = "completed",
-                   @Query("maxResults") maxResults: Int = 25,
+                   @Query("maxResults") maxResults: Int = 30,
                    @Query("order") order: String = "date", // can be date, rating, title, videoCount, viewCount
-                   @Query("regionCode") regionCode: String = "US",
-                   @Query("relevanceLanguage") relevanceLanguage: String = "en",
                    @Query("type") type: String = "video",
                    @Query("videoCaption") captions: String = "closedCaption",
-                   @Query("videoDuration") videoDuration: String = "short" // can be medium, long, any
+                   @Query("videoDuration") videoDuration: String = "any" // can be medium, long, any
+    ) : Call<VideoListDTO>
+
+    @GET("search")
+    fun searchVideos(@Query("q") query: String,
+                     @Query("part") part: String = "snippet",
+                     @Query("maxResults") maxResults: Int = 50,
+                     @Query("order") order: String = "relevance", // can be date, rating, title, videoCount, viewCount
+                     @Query("relevanceLanguage") relevanceLanguage: String = "en",
+                     @Query("type") type: String = "video",
+                     @Query("videoCaption") captions: String = "closedCaption",
+                     @Query("videoDuration") videoDuration: String = "any" // can be medium, long, any
     ) : Call<VideoListDTO>
 
 }

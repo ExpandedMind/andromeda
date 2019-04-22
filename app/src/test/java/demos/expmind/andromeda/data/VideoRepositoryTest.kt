@@ -32,11 +32,11 @@ class VideoRepositoryTest {
     @Mock
     lateinit var mockRemoteSource: VideoDataSource
     var newsVideo: Video = Video("id1", "white house is broken", "thumb_url", "2:35",
-            VideoCategory.SCIENCE)
-    var petsVideo1: Video = Video("idpet1", "how to call your dog", "pet_thumb1", "1:08", VideoCategory.PETS)
-    var petsVideo2: Video = Video("idpet2", "naughty cats", "pet_thumb2", "4:16", VideoCategory.PETS)
+            YoutubeChannels.BBC)
+    var petsVideo1: Video = Video("idpet1", "how to call your dog", "pet_thumb1", "1:08", YoutubeChannels.VOA)
+    var petsVideo2: Video = Video("idpet2", "naughty cats", "pet_thumb2", "4:16", YoutubeChannels.VOA)
     var sportsVideo: Video = Video("idsports1", "Chicago Cubs won the series", "thumb_url", "1:22",
-            VideoCategory.SPORTS)
+            YoutubeChannels.TOEFL)
     val httpClient: OkHttpClient = OkHttpClient.Builder().build()
 
     @Before
@@ -69,7 +69,7 @@ class VideoRepositoryTest {
                 .setResponseCode(200)
                 .setBody(RestTestHelper.VIDEO_RESPONSE_200))
 
-        repository.getAll(VideoCategory.MUSIC, getAllCallback)
+        repository.getAll(YoutubeChannels.BBC, getAllCallback)
 
         assertThat(repository.cacheVideos.size).isEqualTo(3)
     }
@@ -94,8 +94,8 @@ class VideoRepositoryTest {
         //setup source
 
         //Make call twice
-        repository.getAll(VideoCategory.PETS, getAllCallback)
-        repository.getAll(VideoCategory.PETS, getAllCallback)
+        repository.getAll(YoutubeChannels.VOA, getAllCallback)
+        repository.getAll(YoutubeChannels.VOA, getAllCallback)
 
         //Verify that remote source is called just once
         verify(mockRemoteSource, times(1)).getAll(any(), any())
@@ -107,7 +107,7 @@ class VideoRepositoryTest {
     fun getAll_serviceUnavailable_notifiesOnError() {
         server.enqueue(MockResponse().setResponseCode(500).setBody("Service Unavailable"))
 
-        repository.getAll(VideoCategory.SCIENCE, getAllCallback);
+        repository.getAll(YoutubeChannels.BBC, getAllCallback);
 
         verify(getAllCallback).onError()
     }
@@ -120,7 +120,7 @@ class VideoRepositoryTest {
                 Pair(sportsVideo.ytID, sportsVideo))
         repository.cacheVideos.putAll(sampleVideos)
 
-        repository.getAll(VideoCategory.SCIENCE, getAllCallback)
+        repository.getAll(YoutubeChannels.BBC, getAllCallback)
 
         //Verify that callback was called with expected video list
         verify(getAllCallback).onSuccess(listOf(newsVideo))
@@ -136,7 +136,7 @@ class VideoRepositoryTest {
                 Pair(sportsVideo.ytID, sportsVideo))
         repository.cacheVideos.putAll(sampleVideos)
 
-        repository.getAll(VideoCategory.MUSIC, getAllCallback)
+        repository.getAll(YoutubeChannels.TED, getAllCallback)
 
         verify(mockRemoteSource).getAll(any(), any())
     }
