@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     lateinit var loadingBar: ProgressBar
     lateinit var noInternetView: View
     lateinit var noInternetText: TextView
+    lateinit var swipeRefresh: SwipeRefreshLayout
     lateinit var viewModel: VideosByCategoryViewModel
 
     companion object {
@@ -69,12 +71,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_video_list, container, false)
-        loadingBar = rootView.findViewById(R.id.indeterminateBar)
-        recyclerView = rootView.findViewById(R.id.videoRecyclerView)
-        noInternetView = rootView.findViewById(R.id.no_internet_view)
-        noInternetText = noInternetView.findViewById(R.id.no_internet_text)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        bindUIElements(rootView)
         return rootView
     }
 
@@ -128,6 +125,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
             recyclerView.visibility = View.INVISIBLE
         } else {
             loadingBar.visibility = View.GONE
+            swipeRefresh.setRefreshing(false)
             recyclerView.visibility = View.VISIBLE
         }
     }
@@ -136,6 +134,21 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
         noInternetText.text = message
         noInternetView.visibility = View.VISIBLE
         recyclerView.visibility = View.INVISIBLE
+    }
+
+    private fun bindUIElements(viewRoot: View) {
+        loadingBar = viewRoot.findViewById(R.id.indeterminateBar)
+        recyclerView = viewRoot.findViewById(R.id.videoRecyclerView)
+        noInternetView = viewRoot.findViewById(R.id.no_internet_view)
+        noInternetText = noInternetView.findViewById(R.id.no_internet_text)
+        swipeRefresh = viewRoot.findViewById(R.id.swipe_refresh_layout)
+        swipeRefresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
+        swipeRefresh.setOnRefreshListener {
+            noInternetView.visibility = View.INVISIBLE
+            viewModel.loadVideos()
+        }
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
     }
 
 }
