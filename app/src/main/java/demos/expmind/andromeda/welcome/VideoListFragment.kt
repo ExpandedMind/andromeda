@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.R
@@ -36,6 +37,8 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
 
     lateinit var recyclerView: RecyclerView
     lateinit var loadingBar: ProgressBar
+    lateinit var noInternetView: View
+    lateinit var noInternetText: TextView
     lateinit var viewModel: VideosByCategoryViewModel
 
     companion object {
@@ -68,6 +71,8 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
         val rootView = inflater.inflate(R.layout.fragment_video_list, container, false)
         loadingBar = rootView.findViewById(R.id.indeterminateBar)
         recyclerView = rootView.findViewById(R.id.videoRecyclerView)
+        noInternetView = rootView.findViewById(R.id.no_internet_view)
+        noInternetText = noInternetView.findViewById(R.id.no_internet_text)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         return rootView
@@ -120,7 +125,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     private fun showLoadingIndicator(show: Boolean) {
         if (show) {
             loadingBar.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
+            recyclerView.visibility = View.INVISIBLE
         } else {
             loadingBar.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
@@ -128,7 +133,9 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     }
 
     private fun showError(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        noInternetText.text = message
+        noInternetView.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
     }
 
 }
