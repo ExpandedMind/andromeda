@@ -1,6 +1,10 @@
 package demos.expmind.andromeda.di;
 
+import android.net.ConnectivityManager;
+
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -11,6 +15,7 @@ import demos.expmind.andromeda.BuildConfig;
 import demos.expmind.andromeda.network.ApiKey;
 import demos.expmind.andromeda.network.ApiKeyInterceptor;
 import demos.expmind.andromeda.network.CaptionsService;
+import demos.expmind.andromeda.network.NetworkConnectivityInterceptor;
 import demos.expmind.andromeda.network.YoutubeService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,10 +28,14 @@ public abstract class NetworkModule {
 
     @Provides
     @Singleton
-    public static OkHttpClient providesCommonOkHttpClient() {
+    public static OkHttpClient providesCommonOkHttpClient(ConnectivityManager connectivityManager) {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(new NetworkConnectivityInterceptor(connectivityManager))
                 .addNetworkInterceptor(new StethoInterceptor())
+                .connectTimeout(25, TimeUnit.SECONDS)
+                .readTimeout(25, TimeUnit.SECONDS)
+                .writeTimeout(25, TimeUnit.SECONDS)
                 .build();
     }
 

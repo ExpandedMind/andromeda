@@ -11,8 +11,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.R
+import demos.expmind.andromeda.data.DownloadStatus
+import demos.expmind.andromeda.data.Result
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.network.YoutubeService
@@ -29,6 +33,10 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     private val adapter: VideosAdapter = VideosAdapter(this)
     @Inject
     lateinit var service: YoutubeService
+
+    lateinit var recyclerView: RecyclerView
+    lateinit var loadingBar: ProgressBar
+    lateinit var viewModel: VideosByCategoryViewModel
 
     companion object {
         /**
@@ -58,14 +66,21 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_video_list, container, false)
-        val recyclerView = rootView.findViewById<RecyclerView>(R.id.videoRecyclerView)
+        loadingBar = rootView.findViewById(R.id.indeterminateBar)
+        recyclerView = rootView.findViewById(R.id.videoRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: YoutubeChannels.TED.name
+        //TODO inject ViewModel Factory
+        viewModel = ViewModelProviders
+                .of(this, WelcomeViewModelFactory(YoutubeChannels.valueOf(categoryName), service))
+                .get(categoryName, VideosByCategoryViewModel::class.java)
         observeViewModel()
+        viewModel.loadVideos()
     }
 
     //TODO replace listener with Eventbus
@@ -76,19 +91,44 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
     }
 
     private fun observeViewModel() {
-        //TODO replace with the most generic video cateogry ("today videos")
-        val categoryName = arguments?.getString(ARG_CATEGORY_NAME) ?: YoutubeChannels.TED.name
-        //TODO inject this view model
-        val welcomeViewModel: WelcomeViewModel = ViewModelProviders
-                .of(this, WelcomeViewModelFactory(YoutubeChannels.valueOf(categoryName), service))
-                .get(categoryName, WelcomeViewModel::class.java)
-        welcomeViewModel.getTodayVideos().observe(this, object : Observer<List<Video>> {
-            override fun onChanged(t: List<Video>?) {
-                t?.let {
-                    adapter.setVideos(t)
+
+        viewModel.getLoadedVideos().observe(this, object : Observer<Result<List<Video>>> {
+            override fun onChanged(r: Result<List<Video>>?) {
+                r?.let {
+                    if (it.successful) {
+                        adapter.setVideos(it.value)
+                    } else {
+                        showError(it.errorMessage)
+                    }
+
                 }
             }
+        })
 
+        viewModel.getLoadingStatus().observe(this, Observer<DownloadStatus> { status ->
+            when (status) {
+                DownloadStatus.LOADING -> {
+                    showLoadingIndicator(true)
+                }
+                DownloadStatus.DOWNLOADED -> {
+                    showLoadingIndicator(false)
+                }
+            }
         })
     }
+
+    private fun showLoadingIndicator(show: Boolean) {
+        if (show) {
+            loadingBar.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+        } else {
+            loadingBar.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

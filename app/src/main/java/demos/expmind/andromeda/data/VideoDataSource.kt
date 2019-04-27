@@ -13,7 +13,7 @@ interface VideoDataSource {
 
     interface GetAllCallback {
         fun onSuccess(r: List<Video>)
-        fun onError()
+        fun onError(errorMessage: String = "")
     }
 
     interface SearchCallback {

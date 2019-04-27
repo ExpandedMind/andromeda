@@ -34,10 +34,9 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
                 callback.onSuccess(r)
             }
 
-            override fun onError() {
-                callback.onError()
+            override fun onError(errorMessage: String) {
+                callback.onError(errorMessage)
             }
-
         })
     }
 

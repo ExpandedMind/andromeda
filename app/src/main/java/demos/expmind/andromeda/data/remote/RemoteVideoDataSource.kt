@@ -2,13 +2,13 @@ package demos.expmind.andromeda.data.remote
 
 import android.util.Log
 import demos.expmind.andromeda.common.AppExecutors
-import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.data.VideoDataMapper
 import demos.expmind.andromeda.data.VideoDataSource
 import demos.expmind.andromeda.data.VideoListDTO
+import demos.expmind.andromeda.data.YoutubeChannels
+import demos.expmind.andromeda.network.NetworkUnavailableException
 import demos.expmind.andromeda.network.YoutubeService
 import retrofit2.Response
-import java.lang.Exception
 import java.net.UnknownHostException
 
 /**
@@ -51,14 +51,18 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
                         callback.onSuccess(videos)
                     }
                 } else appExecutors.mainThread.execute { callback.onError() }
-            } catch (uhe: Exception) {
-                //TODO deal with no internet connenctions
-                callback.onError()
-                Log.e("RemoteDataSource", "No internet")
+            } catch (nce: NetworkUnavailableException) {
+                appExecutors.mainThread.execute {
+                    callback.onError(nce.message)
+                }
+            } catch (uhe: UnknownHostException) {
+                appExecutors.mainThread.execute {
+                    callback.onError()
+                }
+                Log.e("RemoteDataSource", uhe.message)
             }
-
-
         }
+
     }
 
     override fun search(query: String, callback: VideoDataSource.SearchCallback) {

@@ -1,6 +1,8 @@
 package demos.expmind.andromeda.di;
 
+import android.app.Service;
 import android.content.Context;
+import android.net.ConnectivityManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,6 +18,11 @@ public class AppModule {
     @Provides
     Context providesContext(AndromedaApp app) {
         return app.getApplicationContext();
+    }
+
+    @Provides
+    ConnectivityManager providesConnectivityManager(Context context) {
+        return (ConnectivityManager) context.getSystemService(Service.CONNECTIVITY_SERVICE);
     }
 
     @Provides
