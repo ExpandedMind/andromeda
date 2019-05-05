@@ -1,0 +1,21 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_size">14sp</dimen>
+    <!-- Video CardView-->
+    <dimen name="icon_width">60dip</dimen>
+    <dimen name="icon_height">60dip</dimen>
+    <dimen name="icon_padding">8dp</dimen>
+    <dimen name="card_height">250dip</dimen>
+    <dimen name="videoTitle_text_size">18sp</dimen>
+    <dimen name="min_height_thumb">180dp</dimen>
+    <dimen name="min_width_thumb">320dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="flashcard_min_height">100dp</dimen>
+</resources>

@@ -4,30 +4,97 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "demos.expmind.andromeda"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        /**
+         * Global configuration parameters.
+         * The potential security risk of having all API keys and IP addresses exposed in a static class
+         * will be mitigated once we find a better approach, then this class will be removed.
+         * When you prepare to release your app to your users, follow these steps again and create a new
+         * OAuth 2.0 client ID for your production app. For production apps, use your own private key
+         * to sign the production app's .apk file. For more information, see Signing your applications.
+         * https://developer.android.com/studio/publish/app-signing.html?hl=es-419
+         */
+        buildConfigField 'String', 'YOUTUBE_URL', '"https://www.googleapis.com/youtube/v3/"'
+        buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyCDzF94m1CGsclBC9bPosmISo2XRAVDQ1A"'
+        buildConfigField 'String', 'VIDEO_CAPTIONS_URL', '"http://video.google.com/"'
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            debuggable true
+        }
+        mockServer {
+            initWith debug
+            applicationIdSuffix ".mockserver"
+            buildConfigField 'String', 'YOUTUBE_URL', '"http://localhost:8080"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+// To support android kotlin extensions (@Parcelize, kotlinx synthetic ...)
+androidExtensions {
+    experimental = true
+}
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // Support lib compat
+    implementation "com.android.support:recyclerview-v7:${versions.support_lib}"
+    implementation "com.android.support:appcompat-v7:${versions.support_lib}"
+    implementation "com.android.support:cardview-v7:${versions.support_lib}"
+    implementation "com.android.support:design:${versions.support_lib}"
+    implementation "com.android.support:support-v4:${versions.support_lib}"
+    implementation "com.android.support:support-annotations:${versions.support_lib}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    //youtube
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    // Architecture Components
+    implementation "android.arch.persistence.room:runtime:${versions.room}"
+    annotationProcessor "android.arch.persistence.room:compiler:${versions.room}"
+    implementation "android.arch.lifecycle:extensions:${versions.archLifecycle}"
+    annotationProcessor "android.arch.lifecycle:compiler:${versions.archLifecycle}"
+    //Network
+    implementation deps.retrofit2
+    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-simplexml:${versions.retrofit}"
+    debugImplementation deps.stetho
+    implementation deps.networkInterceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    // Dependency Injection
+    implementation "com.google.dagger:dagger:${versions.daggerVersion}"
+    implementation "com.google.dagger:dagger-android-support:${versions.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
+    kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
+
+    // Testing
     testImplementation 'junit:junit:4.12'
+    testImplementation deps.mockitoCore
+    testImplementation "org.assertj:assertj-core:3.8.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation "com.squareup.okhttp3:mockwebserver:${versions.mockserver}"
+    // mock build type
+    mockServerImplementation "com.squareup.okhttp3:mockwebserver:${versions.mockserver}"
+    mockServerImplementation deps.stetho
+    //Utilities
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
