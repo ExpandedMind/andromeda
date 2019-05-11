@@ -8,11 +8,11 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "demos.expmind.andromeda"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -84,6 +84,9 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
     kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
     kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
+    // Persistence
+    implementation "androidx.room:room-runtime:${versions.room_version}"
+    kapt "androidx.room:room-compiler:${versions.room_version}"
 
     // Testing
     testImplementation 'junit:junit:4.12'

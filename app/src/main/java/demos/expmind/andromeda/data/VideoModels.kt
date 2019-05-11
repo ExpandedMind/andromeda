@@ -31,7 +31,7 @@ data class Video(val ytID: String, val title: String, val thumbnail: String, val
  * Hardcoded categories that belong official Youtube API
  */
 @Parcelize
-enum class YoutubeChannels(val channelName: String, val ytIndex: String, val lang: String = "en") : Parcelable {
+enum class YoutubeChannels(val displayName: String, val ytIndex: String, val lang: String = "en") : Parcelable {
     TED("TED Talks", "UCAuUUnT6oDeKwE6v1NGQxug"),
     SCIENCE("Science", "UCUHW94eEFW7hkUMVaZz4eDg"),
     BBC("BBC Learning", "UCHaHD477h-FeBbVh9Sh7syA", "en-GB"),

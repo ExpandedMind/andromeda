@@ -90,7 +90,7 @@ class WelcomeActivity : AppCompatActivity() {
             return VideoListFragment.newInstance(CATEGORIES[position].name)
         }
 
-        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position].channelName
+        override fun getPageTitle(position: Int): CharSequence? = CATEGORIES[position].displayName
 
 
         override fun getCount(): Int = CATEGORIES.size

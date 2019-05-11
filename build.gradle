@@ -11,7 +11,8 @@ buildscript {
             stetho       : '1.5.0',
             mockito      : '2.11.0',
             mockserver   : '3.12.1',
-            daggerVersion : '2.11'
+            daggerVersion : '2.11',
+            room_version : '2.1.0-alpha07'
     ]
 
     ext.deps = [
