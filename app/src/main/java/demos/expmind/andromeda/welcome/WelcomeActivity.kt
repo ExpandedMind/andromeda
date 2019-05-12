@@ -2,11 +2,11 @@ package demos.expmind.andromeda.welcome
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import demos.expmind.andromeda.R
@@ -80,13 +80,13 @@ class WelcomeActivity : AppCompatActivity() {
      * A [FragmentPagerAdapter] that holds video categories and returns a {@link VideoListFragment}
      * corresponding to one of the sections/tabs/pages.
      */
-    class CategoriesPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    class CategoriesPagerAdapter(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentPagerAdapter(fm) {
         // For now, topics for our demo are hardcoded
         companion object {
             val CATEGORIES: List<YoutubeChannels> = YoutubeChannels.values().asList()
         }
 
-        override fun getItem(position: Int): Fragment {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment {
             return VideoListFragment.newInstance(CATEGORIES[position].name)
         }
 

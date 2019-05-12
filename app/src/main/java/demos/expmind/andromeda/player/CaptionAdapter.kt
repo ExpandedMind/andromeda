@@ -1,6 +1,6 @@
 package demos.expmind.andromeda.player
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Caption
 
 
-class CaptionAdapter : RecyclerView.Adapter<CaptionAdapter.CaptionViewHolder>() {
+class CaptionAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<CaptionAdapter.CaptionViewHolder>() {
 
     private val subtitles: MutableList<Caption> = mutableListOf()
 
@@ -30,7 +30,7 @@ class CaptionAdapter : RecyclerView.Adapter<CaptionAdapter.CaptionViewHolder>() 
         notifyDataSetChanged()
     }
 
-    inner class CaptionViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {
+    inner class CaptionViewHolder(val rootView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(rootView) {
 
         val captionText: TextView = rootView.findViewById(R.id.captionTextView)
 

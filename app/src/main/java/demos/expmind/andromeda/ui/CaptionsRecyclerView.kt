@@ -1,7 +1,7 @@
 package demos.expmind.andromeda.ui
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 
@@ -23,9 +23,9 @@ class CaptionsRecyclerView @JvmOverloads constructor(ctx: Context, attrs: Attrib
 
     private fun initEmptyView() {
         emptyView?.run {
-            this.visibility = if (adapter == null || adapter.itemCount == 0) View.VISIBLE else View.GONE
+            this.visibility = if (adapter == null || getAdapter()!!.itemCount == 0) View.VISIBLE else View.GONE
             this@CaptionsRecyclerView.visibility =
-                    if (adapter == null || adapter.itemCount == 0) View.GONE else View.VISIBLE
+                    if (adapter == null || getAdapter()!!.itemCount == 0) View.GONE else View.VISIBLE
         }
     }
 

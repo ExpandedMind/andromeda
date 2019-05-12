@@ -8,7 +8,7 @@ import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import demos.expmind.andromeda.common.AppExecutors;
-import demos.expmind.andromeda.data.local.AppDatabase;
+import demos.expmind.andromeda.data.local.AndromedaDatabase;
 import demos.expmind.andromeda.data.remote.RemoteVideoDataSource;
 import demos.expmind.andromeda.network.YoutubeService;
 
@@ -17,8 +17,8 @@ public class DataLayerModule {
 
     @Provides
     @Singleton
-    public static AppDatabase providesAppDatabase(Context applicationContext) {
-        return Room.databaseBuilder(applicationContext, AppDatabase.class, "andromeda.db")
+    public static AndromedaDatabase providesAppDatabase(Context applicationContext) {
+        return Room.databaseBuilder(applicationContext, AndromedaDatabase.class, "andromeda.db")
                 .build();
 
     }

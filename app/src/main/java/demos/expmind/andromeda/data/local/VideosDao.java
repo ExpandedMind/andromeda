@@ -12,7 +12,7 @@ import demos.expmind.andromeda.data.YoutubeChannels;
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
-@TypeConverters({CaptionsConverter.class})
+@TypeConverters({CaptionsConverter.class, YoutubeChannelConverter.class})
 public interface VideosDao {
 
     @Query("SELECT * FROM VideoEntity WHERE VideoEntity.channel = :channel")

@@ -1,6 +1,6 @@
 package demos.expmind.andromeda.video
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import demos.expmind.andromeda.data.Video
  * Created by RAJ1GA on 27/10/2018.
  */
 internal class VideosAdapter(private val mListener: VideoAdapterListener) :
-        RecyclerView.Adapter<VideosAdapter.VideoItemViewHolder>() {
+        androidx.recyclerview.widget.RecyclerView.Adapter<VideosAdapter.VideoItemViewHolder>() {
 
     private val videoList: MutableList<Video> = mutableListOf()
 
@@ -45,7 +45,7 @@ internal class VideosAdapter(private val mListener: VideoAdapterListener) :
         notifyDataSetChanged()
     }
 
-    internal inner class VideoItemViewHolder(private val mRootView: View) : RecyclerView.ViewHolder(mRootView) {
+    internal inner class VideoItemViewHolder(private val mRootView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mRootView) {
 
         private val mTitleTextView: TextView = mRootView.findViewById(R.id.text_video_title)
         private val mLengthTextView: TextView = mRootView.findViewById(R.id.text_video_length)

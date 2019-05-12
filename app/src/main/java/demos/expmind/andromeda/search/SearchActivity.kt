@@ -1,13 +1,13 @@
 package demos.expmind.andromeda.search
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
@@ -43,8 +43,8 @@ class SearchActivity : AppCompatActivity(), VideosAdapter.VideoAdapterListener {
     }
 
     private fun setupUI() {
-        val recyclerView = findViewById<RecyclerView>(R.id.videoRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.videoRecyclerView)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
 

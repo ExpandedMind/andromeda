@@ -1,14 +1,14 @@
 package demos.expmind.andromeda.welcome
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,17 +30,17 @@ import javax.inject.Inject
 /**
  * UI Component that shows a list of videos.
  */
-class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
+class VideoListFragment : androidx.fragment.app.Fragment(), VideosAdapter.VideoAdapterListener {
 
     private val adapter: VideosAdapter = VideosAdapter(this)
     @Inject
     lateinit var service: YoutubeService
 
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     lateinit var loadingBar: ProgressBar
     lateinit var noInternetView: View
     lateinit var noInternetText: TextView
-    lateinit var swipeRefresh: SwipeRefreshLayout
+    lateinit var swipeRefresh: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     lateinit var viewModel: VideosByCategoryViewModel
 
     companion object {
@@ -147,7 +147,7 @@ class VideoListFragment : Fragment(), VideosAdapter.VideoAdapterListener {
             noInternetView.visibility = View.INVISIBLE
             viewModel.loadVideos()
         }
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.adapter = adapter
     }
 

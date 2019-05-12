@@ -1,12 +1,12 @@
 package demos.expmind.andromeda.player
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -52,8 +52,8 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
         playerView.initialize(BuildConfig.YOUTUBE_DEVELOPER_KEY, this)
         lifecycle.addObserver(presenter)
         adapter = CaptionAdapter()
-        captionsRecycler.layoutManager = LinearLayoutManager(this)
-        captionsRecycler.itemAnimator = DefaultItemAnimator()
+        captionsRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        captionsRecycler.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         captionsRecycler.emptyView = findViewById(R.id.empty_captions_view)
         captionsRecycler.adapter = adapter
         lifeCycleRegistry.markState(Lifecycle.State.CREATED)
