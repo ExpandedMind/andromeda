@@ -1,6 +1,7 @@
 package demos.expmind.andromeda.data.local;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -42,5 +43,22 @@ public class VideoEntity {
         this.thumbUrl = domainModel.getThumbnail();
         this.channel = domainModel.getCategory().name();
         this.captions = domainModel.getSubtitles();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VideoEntity that = (VideoEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(thumbUrl, that.thumbUrl) &&
+                Objects.equals(channel, that.channel) &&
+                Objects.equals(captions, that.captions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, thumbUrl, channel, captions);
     }
 }
