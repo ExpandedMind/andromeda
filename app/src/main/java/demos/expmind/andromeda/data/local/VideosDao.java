@@ -15,6 +15,9 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 @TypeConverters({CaptionsConverter.class, YoutubeChannelConverter.class})
 public interface VideosDao {
 
+    @Query("SELECT * FROM VideoEntity")
+    List<VideoEntity> getAll();
+
     @Query("SELECT * FROM VideoEntity WHERE VideoEntity.channel = :channel")
     List<VideoEntity> filterByChannel(YoutubeChannels channel);
 

@@ -45,6 +45,14 @@ public class VideoEntity {
         this.captions = domainModel.getSubtitles();
     }
 
+    public VideoEntity(VideoEntity otherEntity) {
+        this.id = otherEntity.id;
+        this.title = otherEntity.title;
+        this.thumbUrl = otherEntity.thumbUrl;
+        this.channel = otherEntity.channel;
+        this.captions = otherEntity.captions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
