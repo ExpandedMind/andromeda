@@ -1,5 +1,7 @@
 package demos.expmind.andromeda.data
 
+import demos.expmind.andromeda.data.local.VideoEntity
+
 
 /**
  * Created by RAJ1GA on 07/11/2018.
@@ -11,6 +13,13 @@ class VideoDataMapper {
                 Video(it.id.videoId, it.snippet.title,
                         it.snippet.thumbnails.medium?.url ?: it.snippet.thumbnails.default.url,
                         "", category)
+            }
+
+    fun fromDbToDomain(queryResult: List<VideoEntity>): List<Video> =
+            queryResult.map {
+                /* Current implementation leaves video duration out of scope */
+                Video(it.id, it.title, it.thumbUrl, "", YoutubeChannels.valueOf(it.channel),
+                        it.captions)
             }
 
 

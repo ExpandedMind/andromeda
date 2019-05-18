@@ -25,7 +25,7 @@ class VideosByCategoryViewModel(val category: YoutubeChannels,
     init {
         val remoteDataSource: RemoteVideoDataSource =
                 RemoteVideoDataSource.getInstance(AppExecutors(), youtubeService)
-        videoRepository = VideoRepository.getInstance(remoteDataSource)
+        videoRepository = VideoRepository(remoteDataSource)
     }
 
     fun loadVideos() {

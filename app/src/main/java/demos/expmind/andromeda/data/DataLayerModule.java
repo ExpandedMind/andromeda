@@ -30,6 +30,6 @@ public class DataLayerModule {
 
     @Provides
     public static VideoRepository providesVideoRepository(RemoteVideoDataSource remoteVideoDataSource) {
-        return VideoRepository.getInstance(remoteVideoDataSource);
+        return new VideoRepository(remoteVideoDataSource);
     }
 }

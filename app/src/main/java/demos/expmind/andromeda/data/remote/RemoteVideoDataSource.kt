@@ -2,10 +2,7 @@ package demos.expmind.andromeda.data.remote
 
 import android.util.Log
 import demos.expmind.andromeda.common.AppExecutors
-import demos.expmind.andromeda.data.VideoDataMapper
-import demos.expmind.andromeda.data.VideoDataSource
-import demos.expmind.andromeda.data.VideoListDTO
-import demos.expmind.andromeda.data.YoutubeChannels
+import demos.expmind.andromeda.data.*
 import demos.expmind.andromeda.network.NetworkUnavailableException
 import demos.expmind.andromeda.network.YoutubeService
 import retrofit2.Response
@@ -17,7 +14,7 @@ import java.net.UnknownHostException
 class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
                                                 val service: YoutubeService,
                                                 val dataMapper: VideoDataMapper = VideoDataMapper())
-    : VideoDataSource {
+    : AbstractRemoteVideoDataSource {
 
     companion object {
 
@@ -34,10 +31,6 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
         }
     }
 
-
-    override fun get(ytID: String, callback: VideoDataSource.GetCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun getAll(fromCategory: YoutubeChannels, callback: VideoDataSource.GetAllCallback) {
         val callListVideos = service.listVideos(fromCategory.ytIndex)
@@ -65,7 +58,7 @@ class RemoteVideoDataSource private constructor(val appExecutors: AppExecutors,
 
     }
 
-    override fun search(query: String, callback: VideoDataSource.SearchCallback) {
+    override fun search(query: String, callback: Searchable.Callback) {
         val searchCall = service.searchVideos(query)
         appExecutors.networkIO.execute {
 

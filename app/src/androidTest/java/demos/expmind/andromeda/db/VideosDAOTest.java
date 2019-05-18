@@ -100,6 +100,13 @@ public class VideosDAOTest {
     }
 
     @Test
+    public void filterByChannel_givenNoResults_returnsEmptyList() {
+        dao.insertAll(howTos, todayNews, science1minute);
+
+        Assertions.assertThat(dao.filterByChannel(YoutubeChannels.SKILLS)).isEmpty();
+    }
+
+    @Test
     public void updateVideoInfo_updatesAllModifiedProperties() {
         dao.insert(science1minute);
 

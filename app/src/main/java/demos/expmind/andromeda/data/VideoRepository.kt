@@ -1,21 +1,18 @@
 package demos.expmind.andromeda.data
 
+import demos.expmind.andromeda.data.remote.AbstractRemoteVideoDataSource
 import java.util.LinkedHashMap
 import kotlin.collections.ArrayList
 
 /**
  * Concrete implementation to load videos from the data sources into a cache.
  */
-class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
+class VideoRepository(val remoteSource: AbstractRemoteVideoDataSource) : VideoDataSource {
 
     /**
      * In memory storage for already downloaded videos
      */
     var cacheVideos: LinkedHashMap<String, Video> = LinkedHashMap()
-
-    override fun get(ytID: String, callback: VideoDataSource.GetCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun getAll(fromCategory: YoutubeChannels, callback: VideoDataSource.GetAllCallback) {
         val videosFromCategory = cacheVideos.filterValues { it.category.equals(fromCategory) }
@@ -40,26 +37,8 @@ class VideoRepository(val remoteSource: VideoDataSource) : VideoDataSource {
         })
     }
 
-    override fun search(query: String, callback: VideoDataSource.SearchCallback) {
+    fun search(query: String, callback: Searchable.Callback) {
         remoteSource.search(query, callback)
-    }
-
-    companion object {
-        private var INSTANCE: VideoRepository? = null
-
-        @JvmStatic
-        fun getInstance(remoteSource: VideoDataSource) =
-                INSTANCE ?: synchronized(VideoRepository::class.java) {
-                    INSTANCE ?: VideoRepository(remoteSource).also { INSTANCE = it }
-                }
-
-        /**
-         * Used to force class to create a new instance next time getInstance is called
-         */
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
 
 }

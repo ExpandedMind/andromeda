@@ -3,8 +3,8 @@ package demos.expmind.andromeda.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import demos.expmind.andromeda.data.Searchable
 import demos.expmind.andromeda.data.Video
-import demos.expmind.andromeda.data.VideoDataSource
 import demos.expmind.andromeda.data.VideoRepository
 import retrofit2.Call
 
@@ -18,7 +18,7 @@ class SearchViewModel(private val repository: VideoRepository) : ViewModel() {
 
     fun searchVideos(queryString: String) {
         _isLoading.setValue(true)
-        repository.search(queryString, object : VideoDataSource.SearchCallback {
+        repository.search(queryString, object : Searchable.Callback {
 
             override fun onSuccess(r: List<Video>) {
                 _foundVideos.setValue(r)
