@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import demos.expmind.andromeda.data.VideoRepository
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class SearchViewModelFactory(private val repository: VideoRepository) : ViewModelProvider.Factory {
+class SearchViewModelFactory @Inject constructor(private val repository: VideoRepository) : ViewModelProvider.Factory {
 
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

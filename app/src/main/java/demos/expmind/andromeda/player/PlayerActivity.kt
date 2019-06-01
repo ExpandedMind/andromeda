@@ -1,17 +1,15 @@
 package demos.expmind.andromeda.player
 
+import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import android.content.Intent
-import android.os.Bundle
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
-import dagger.android.AndroidInjection
+import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.BuildConfig
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Caption
@@ -42,7 +40,8 @@ class PlayerActivity : YouTubeBaseActivity(), PlayerContract.View, YouTubePlayer
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+        AndromedaApp.getAppGraph().inject(this)
+        presenter.view = this
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         lifeCycleRegistry = LifecycleRegistry(this)

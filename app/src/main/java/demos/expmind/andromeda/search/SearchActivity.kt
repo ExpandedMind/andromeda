@@ -1,14 +1,11 @@
 package demos.expmind.andromeda.search
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import dagger.android.AndroidInjection
+import demos.expmind.andromeda.AndromedaApp
 import demos.expmind.andromeda.R
 import demos.expmind.andromeda.data.Video
 import demos.expmind.andromeda.player.PlayerActivity
@@ -26,7 +23,7 @@ class SearchActivity : AppCompatActivity(), VideosAdapter.VideoAdapterListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+        AndromedaApp.getAppGraph().inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)

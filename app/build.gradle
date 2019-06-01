@@ -85,11 +85,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     // Dependency Injection
     implementation "com.google.dagger:dagger:${versions.daggerVersion}"
-    implementation "com.google.dagger:dagger-android-support:${versions.daggerVersion}"
-    annotationProcessor "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
     kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
-    kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
     // Persistence
     implementation "androidx.room:room-runtime:${versions.room_version}"
     kapt "androidx.room:room-compiler:${versions.room_version}"

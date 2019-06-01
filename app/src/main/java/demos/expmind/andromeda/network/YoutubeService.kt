@@ -8,7 +8,7 @@ import retrofit2.http.Query
 /**
  * Definition of endpoints for Youtube API
  */
-interface   YoutubeService {
+interface YoutubeService {
 
     @GET("search")
     fun listVideos(@Query("channelId") channelID: String,

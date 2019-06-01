@@ -19,8 +19,10 @@ import javax.inject.Inject
  * Coordinates player with events coming from view layer.
  */
 @SuppressWarnings("Deprecated")
-class PlayerPresenter  @Inject constructor(val view: PlayerContract.View, val service: CaptionsService)
+class PlayerPresenter  @Inject constructor(val service: CaptionsService)
     : PlayerContract.Presenter, LifecycleObserver {
+
+    lateinit var view: PlayerContract.View
 
     var player: YouTubePlayer? = null
         set(value) {
@@ -79,6 +81,7 @@ class PlayerPresenter  @Inject constructor(val view: PlayerContract.View, val se
 
             override fun onFailure(call: Call<TranscriptDTO>, t: Throwable) {
                 Log.d(TAG, "error", t)
+                //TODO Notify to view that something has failed
             }
 
         })

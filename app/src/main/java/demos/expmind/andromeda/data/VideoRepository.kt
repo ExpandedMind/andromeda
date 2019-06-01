@@ -2,12 +2,13 @@ package demos.expmind.andromeda.data
 
 import demos.expmind.andromeda.data.remote.AbstractRemoteVideoDataSource
 import java.util.LinkedHashMap
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 /**
  * Concrete implementation to load videos from the data sources into a cache.
  */
-class VideoRepository(val remoteSource: AbstractRemoteVideoDataSource) : VideoDataSource {
+class VideoRepository @Inject constructor(val remoteSource: AbstractRemoteVideoDataSource) : VideoDataSource {
 
     /**
      * In memory storage for already downloaded videos

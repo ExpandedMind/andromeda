@@ -13,7 +13,6 @@ import demos.expmind.andromeda.network.YoutubeService
  * ViewModel layer for welcome feature.
  * It holds all observable necessary to feed welcome screen (top video lists, categories)
  */
-//TODO Injectar parametros de constructor a viewmodel
 class VideosByCategoryViewModel(val category: YoutubeChannels,
                                 youtubeService: YoutubeService) : ViewModel() {
 
