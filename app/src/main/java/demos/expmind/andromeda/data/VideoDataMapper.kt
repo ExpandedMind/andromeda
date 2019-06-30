@@ -1,12 +1,13 @@
 package demos.expmind.andromeda.data
 
 import demos.expmind.andromeda.data.local.VideoEntity
+import javax.inject.Inject
 
 
 /**
  * Created by RAJ1GA on 07/11/2018.
  */
-class VideoDataMapper {
+class VideoDataMapper @Inject constructor(){
 
     fun fromDTOtoDomain(response: VideoListDTO, category: YoutubeChannels): List<Video> =
             response.items.map {

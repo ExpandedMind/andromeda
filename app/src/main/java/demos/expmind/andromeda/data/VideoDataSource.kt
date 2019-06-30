@@ -13,4 +13,8 @@ interface VideoDataSource {
 
     fun getAll(fromCategory: YoutubeChannels, callback: GetAllCallback)
 
+    fun store(newVideo: Video) { }
+
+    fun store(newVideos: List<Video>) { }
+
 }

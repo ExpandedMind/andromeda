@@ -1,12 +1,15 @@
 package demos.expmind.andromeda.welcome
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Log
-import demos.expmind.andromeda.common.AppExecutors
-import demos.expmind.andromeda.data.*
-import demos.expmind.andromeda.data.remote.RemoteVideoDataSource
+import demos.expmind.andromeda.data.DownloadStatus
+import demos.expmind.andromeda.data.Result
+import demos.expmind.andromeda.data.Video
+import demos.expmind.andromeda.data.VideoDataSource
+import demos.expmind.andromeda.data.VideoRepository
+import demos.expmind.andromeda.data.YoutubeChannels
 import demos.expmind.andromeda.network.YoutubeService
 
 /**
@@ -14,18 +17,11 @@ import demos.expmind.andromeda.network.YoutubeService
  * It holds all observable necessary to feed welcome screen (top video lists, categories)
  */
 class VideosByCategoryViewModel(val category: YoutubeChannels,
-                                youtubeService: YoutubeService) : ViewModel() {
+                                val videoRepository: VideoRepository) : ViewModel() {
 
     val TAG: String = VideosByCategoryViewModel::class.java.simpleName
     private val _downloadStatus: MutableLiveData<DownloadStatus> = MutableLiveData()
     private val _categoryVideos: MutableLiveData<Result<List<Video>>> = MutableLiveData()
-    val videoRepository: VideoRepository
-
-    init {
-        val remoteDataSource: RemoteVideoDataSource =
-                RemoteVideoDataSource.getInstance(AppExecutors(), youtubeService)
-        videoRepository = VideoRepository(remoteDataSource)
-    }
 
     fun loadVideos() {
         _downloadStatus.setValue(DownloadStatus.LOADING)
@@ -48,4 +44,5 @@ class VideosByCategoryViewModel(val category: YoutubeChannels,
     fun getLoadedVideos(): LiveData<Result<List<Video>>> = _categoryVideos
 
 }
+
 

@@ -9,6 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import demos.expmind.andromeda.common.AppExecutors;
 import demos.expmind.andromeda.data.local.AndromedaDatabase;
+import demos.expmind.andromeda.data.local.LocalVideoDataSource;
 import demos.expmind.andromeda.data.remote.RemoteVideoDataSource;
 import demos.expmind.andromeda.network.YoutubeService;
 
@@ -29,7 +30,12 @@ public class DataLayerModule {
     }
 
     @Provides
-    public static VideoRepository providesVideoRepository(RemoteVideoDataSource remoteVideoDataSource) {
-        return new VideoRepository(remoteVideoDataSource);
+    public static LocalVideoDataSource providesLocalVideoDataSource(AppExecutors appExecutors, AndromedaDatabase db, VideoDataMapper mapper) {
+        return LocalVideoDataSource.getInstance(appExecutors, db.videosDao(), mapper);
+    }
+
+    @Provides
+    public static VideoRepository providesVideoRepository(RemoteVideoDataSource remoteVideoDataSource, LocalVideoDataSource localSource) {
+        return new VideoRepository(remoteVideoDataSource, localSource);
     }
 }

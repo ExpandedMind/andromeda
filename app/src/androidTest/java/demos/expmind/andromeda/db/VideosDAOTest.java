@@ -88,6 +88,16 @@ public class VideosDAOTest {
     }
 
     @Test
+    public void insertAll_givenListParam_insertsAllVideos() {
+        List<VideoEntity> expectedResult = new ArrayList<>();
+        Collections.addAll(expectedResult, motivationalSpeech, rollingInTheDeep, science1minute, howTos, todayNews);
+
+        dao.insertAll(expectedResult);
+
+        Assertions.assertThat(dao.getAll()).containsAll(expectedResult);
+    }
+
+    @Test
     public void filterByChannel_returnsExpectedVideos() {
         dao.insertAll(howTos, motivationalSpeech, todayNews, rollingInTheDeep, science1minute);
 

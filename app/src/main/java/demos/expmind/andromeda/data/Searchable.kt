@@ -1,5 +1,6 @@
 package demos.expmind.andromeda.data
 
+//TODO make it generic
 interface Searchable {
 
     interface Callback {

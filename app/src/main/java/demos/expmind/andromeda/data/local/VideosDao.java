@@ -30,6 +30,9 @@ public interface VideosDao {
     @Insert(onConflict = REPLACE)
     void insertAll(VideoEntity... videos);
 
+    @Insert(onConflict = REPLACE)
+    void insertAll(List<VideoEntity> videos);
+
     @Update(onConflict = REPLACE)
     void updateVideoInfo(VideoEntity video);
 
