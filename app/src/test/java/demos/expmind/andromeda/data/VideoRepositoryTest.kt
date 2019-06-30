@@ -29,6 +29,8 @@ class VideoRepositoryTest {
     lateinit var searchCallback: Searchable.Callback
     @Mock
     lateinit var mockRemoteSource: AbstractRemoteVideoDataSource
+    @Mock
+    lateinit var mockLocalSource: VideoDataSource
     var newsVideo: Video = Video("id1", "white house is broken", "thumb_url", "2:35",
             YoutubeChannels.BBC)
     var petsVideo1: Video = Video("idpet1", "how to call your dog", "pet_thumb1", "1:08", YoutubeChannels.VOA)
@@ -97,12 +99,9 @@ class VideoRepositoryTest {
     }
 
     @Test
-    fun getAll_withPreviousCachedVideos_returnsVideosFromCorrespondingCategoryOnly() {
-        val sampleVideos: Map<String, Video> = mapOf(Pair(newsVideo.ytID, newsVideo),
-                Pair(petsVideo1.ytID, petsVideo1),
-                Pair(petsVideo2.ytID, petsVideo2),
-                Pair(sportsVideo.ytID, sportsVideo))
-        repository.cacheVideos.putAll(sampleVideos)
+    fun getAll_givenCachedVideos_returnsDataFromCache() {
+        val cachedList: List<Video> = listOf(newsVideo, petsVideo1, petsVideo2, sportsVideo)
+        repository.cachedVideos.addAll(cachedList)
 
         repository.getAll(YoutubeChannels.BBC, getAllCallback)
 
@@ -115,16 +114,39 @@ class VideoRepositoryTest {
     }
 
     @Test
-    fun getAll_emptyCacheForGivenCategory_thenRemoteIsTriggered() {
-        val sampleVideos: Map<String, Video> = mapOf(Pair(newsVideo.ytID, newsVideo),
-                Pair(petsVideo1.ytID, petsVideo1),
-                Pair(petsVideo2.ytID, petsVideo2),
-                Pair(sportsVideo.ytID, sportsVideo))
-        repository.cacheVideos.putAll(sampleVideos)
+    fun getAll_givenCloudError_replicatesErrorThroughCallback() {
+        val errorMessage = "Unavailable Service 500"
+        Mockito.doAnswer(object : Answer<InvocationOnMock> {
+            override fun answer(invocation: InvocationOnMock): InvocationOnMock {
+                val callback = invocation.arguments[1] as VideoDataSource.GetAllCallback
+                callback.onError(errorMessage)
+                return invocation
+            }
 
-        repository.getAll(YoutubeChannels.TED, getAllCallback)
+        }).whenever(mockRemoteSource).getAll(any(), any())
+        // DB is empty
+        Mockito.doAnswer(object : Answer<InvocationOnMock> {
+            override fun answer(invocation: InvocationOnMock): InvocationOnMock {
+                val callback = invocation.arguments[1] as VideoDataSource.GetAllCallback
+                callback.onSuccess(listOf())
+                return invocation
+            }
 
-        verify(mockRemoteSource).getAll(any(), any())
+        }).whenever(mockLocalSource).getAll(any(), any())
+
+        repository.getAll(YoutubeChannels.SKILLS, getAllCallback)
+
+        verify(getAllCallback).onError(eq(errorMessage))
     }
+
+    @Test
+    fun search_searchesVideosOnCloud() {
+        val query = "Digicult .."
+
+        repository.search(query, searchCallback)
+
+        verify(mockRemoteSource).search(eq(query), any())
+    }
+
 
 }
